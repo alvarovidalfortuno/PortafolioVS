@@ -1,17 +1,19 @@
 ﻿@model WebApplication1.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Use otro servicio para iniciar sesión.</h4>
-<hr />
+
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0) {
-        <div>
-            <p>
-                No existen servicios de autenticación externos configurados. Consulte <a href="https://go.microsoft.com/fwlink/?LinkId=403804">este artículo</a>
-                para obtener detalles sobre cómo configurar esta aplicación ASP.NET para admitir el inicio de sesión a través de servicios externos.
-            </p>
+        <div class="col-md-6 ">
+            <div>
+                <h1 class="logo-name text-center">
+                    <img src="~/Imagenes/cas-padlock-icon.png" />
+                </h1>
+            </div>
+
         </div>
+                    <h2 class="font-bold text-center"></h2>
     }
     else {
         using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
