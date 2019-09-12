@@ -4,56 +4,891 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="DEMO_ORDERS">
+    <Schema Namespace="Model.Store" Provider="Oracle.ManagedDataAccess.Client" ProviderManifestToken="11.2" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AREA">
           <Key>
-            <PropertyRef Name="ORDER_ID" />
+            <PropertyRef Name="ID_AREA" />
           </Key>
-          <Property Name="ORDER_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
-          <Property Name="CUSTOMER_ID" Type="number" Precision="38" Scale="0" Nullable="false" />
-          <Property Name="ORDER_TOTAL" Type="number" Precision="8" Scale="2" />
-          <Property Name="ORDER_TIMESTAMP" Type="date" />
-          <Property Name="USER_ID" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_AREA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_AREA" Type="varchar2" MaxLength="50" />
+          <Property Name="DESC_AREA" Type="varchar2" MaxLength="250" />
+          <Property Name="ID_CLIENTE" Type="number" Precision="38" Scale="0" />
         </EntityType>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_CLIENTE" Type="varchar2" MaxLength="50" />
+          <Property Name="DESC_CLIENTE" Type="varchar2" MaxLength="255" />
+          <Property Name="ID_RUBRO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_COMUNA" Type="varchar2" MaxLength="64" Nullable="false" />
+          <Property Name="ID_PROVINCIA" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DOCUMENTO">
+          <Key>
+            <PropertyRef Name="ID_DOCUMENTO" />
+          </Key>
+          <Property Name="ID_DOCUMENTO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_DOCUMENTO" Type="varchar2" MaxLength="250" />
+          <Property Name="GUID" Type="varchar2" MaxLength="250" />
+          <Property Name="TIPO" Type="varchar2" MaxLength="5" />
+          <Property Name="FECHA_CREACION" Type="date" />
+        </EntityType>
+        <EntityType Name="DOCUMENTO_USUARIO">
+          <Key>
+            <PropertyRef Name="ID_DOCUMENTO_USUARIO" />
+          </Key>
+          <Property Name="ID_DOCUMENTO_USUARIO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_DOCUMENTO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
+          <Property Name="FECHA_CREACION" Type="date" />
+        </EntityType>
+        <EntityType Name="EMPLEADOS">
+          <Key>
+            <PropertyRef Name="ID_EMPLEADO" />
+          </Key>
+          <Property Name="ID_EMPLEADO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="SNOMBRE_EMPLEADO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="PAPELLIDO_EMPLEADO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="SAPELLIDO_EMPLEADO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="EDAD_EMPLEADO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="RUN_EMPLEADO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="DV_EMPLEADO" Type="char" MaxLength="1" />
+          <Property Name="DIRECCION" Type="varchar2" MaxLength="255" />
+          <Property Name="ID_COMUNA" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_AREA" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="ESTADO_TAREA">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_ESTADO" Type="varchar2" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="HISTORIA_TAREAS">
+          <Key>
+            <PropertyRef Name="HISTORIAL_TAREA" />
+          </Key>
+          <Property Name="HISTORIAL_TAREA" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROVINCIA">
+          <Key>
+            <PropertyRef Name="ID_PROVINCIA" />
+          </Key>
+          <Property Name="ID_PROVINCIA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_PROVINCIA" Type="varchar2" MaxLength="50" />
+          <Property Name="ID_REGION" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="REGION">
+          <Key>
+            <PropertyRef Name="ID_REGION" />
+          </Key>
+          <Property Name="ID_REGION" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_REGION" Type="varchar2" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ROL_USUARIO">
+          <Key>
+            <PropertyRef Name="ID_ROL_USER" />
+          </Key>
+          <Property Name="ID_ROL_USER" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_ROL" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_EMPLEADO" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_ROL" Type="varchar2" MaxLength="50" />
+          <Property Name="DESC_ROL" Type="varchar2" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="RUBROS">
+          <Key>
+            <PropertyRef Name="ID_RUBRO" />
+          </Key>
+          <Property Name="ID_RUBRO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_RUBRO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="DESC_RUBRO" Type="varchar2" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TAREA_ASIGNADA">
+          <Key>
+            <PropertyRef Name="ID_TAREA_ASIGNADA" />
+          </Key>
+          <Property Name="ID_TAREA_ASIGNADA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_TAREA" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_ESTADO" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TAREA_HITO">
+          <Key>
+            <PropertyRef Name="ID_HITO" />
+          </Key>
+          <Property Name="ID_HITO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="ID_TAREA" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_HISTORIAL" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TAREAS">
+          <Key>
+            <PropertyRef Name="ID_TAREA" />
+          </Key>
+          <Property Name="ID_TAREA" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_TAREA" Type="varchar2" MaxLength="50" />
+          <Property Name="DESC_TAREA" Type="varchar2" MaxLength="250" />
+          <Property Name="FECHA_INICIO" Type="date" />
+          <Property Name="DEADLINE" Type="number" Precision="38" Scale="0" />
+          <Property Name="FECHA_TERMINO" Type="date" />
+          <Property Name="DIAS_TOTAL" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_CLIENTE" Type="number" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="CORREO_USUARIO" Type="varchar2" MaxLength="50" Nullable="false" />
+          <Property Name="CONTRASEÑA_USUARIO" Type="varchar2" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <Association Name="AREA_FK1">
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="0..1" />
+          <End Role="AREA" Type="Self.AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="AREA">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CLIENTE_FK1">
+          <End Role="RUBROS" Type="Self.RUBROS" Multiplicity="0..1" />
+          <End Role="CLIENTE" Type="Self.CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RUBROS">
+              <PropertyRef Name="ID_RUBRO" />
+            </Principal>
+            <Dependent Role="CLIENTE">
+              <PropertyRef Name="ID_RUBRO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMPLEADOS_FK1">
+          <End Role="USUARIOS" Type="Self.USUARIOS" Multiplicity="0..1" />
+          <End Role="EMPLEADOS" Type="Self.EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMPLEADOS_FK2">
+          <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="0..1" />
+          <End Role="EMPLEADOS" Type="Self.EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_COMUNA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMPLEADOS_FK3">
+          <End Role="AREA" Type="Self.AREA" Multiplicity="0..1" />
+          <End Role="EMPLEADOS" Type="Self.EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREA">
+              <PropertyRef Name="ID_AREA" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_AREA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ROL_USUARIO_FK1">
+          <End Role="EMPLEADOS" Type="Self.EMPLEADOS" Multiplicity="1" />
+          <End Role="ROL_USUARIO" Type="Self.ROL_USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADOS">
+              <PropertyRef Name="ID_EMPLEADO" />
+            </Principal>
+            <Dependent Role="ROL_USUARIO">
+              <PropertyRef Name="ID_EMPLEADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ROL_USUARIO_FK2">
+          <End Role="ROLES" Type="Self.ROLES" Multiplicity="1" />
+          <End Role="ROL_USUARIO" Type="Self.ROL_USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="ROL_USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ACTUALIZAR_AREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_P" Type="number" Mode="In" />
+          <Parameter Name="NOMBRE_P" Type="varchar2" Mode="In" />
+          <Parameter Name="DESC_P" Type="varchar2" Mode="In" />
+        </Function>
+        <Function Name="ACTUALIZAR_EMPLEADO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_EMPLEADO" Type="number" Mode="In" />
+          <Parameter Name="SNOMBRE_EMPLEADO" Type="varchar2" Mode="In" />
+          <Parameter Name="RUN_EMPLEADO" Type="number" Mode="In" />
+          <Parameter Name="DV_EMPLEADO" Type="varchar2" Mode="In" />
+          <Parameter Name="APELLIDO1_P" Type="varchar2" Mode="In" />
+          <Parameter Name="APELLIDO2_P" Type="varchar2" Mode="In" />
+          <Parameter Name="IDAREA" Type="number" Mode="In" />
+        </Function>
+        <Function Name="BORRAR_AREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_D" Type="number" Mode="In" />
+        </Function>
+        <Function Name="BORRAR_EMPLEADO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_D" Type="number" Mode="In" />
+        </Function>
+        <Function Name="BORRAR_USUARIO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_D" Type="number" Mode="In" />
+        </Function>
+        <Function Name="INSERTAR_AREA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_A" Type="number" Mode="In" />
+          <Parameter Name="NOMBRE_A" Type="varchar2" Mode="In" />
+          <Parameter Name="DESC_A" Type="varchar2" Mode="In" />
+          <Parameter Name="ID_CLIENTE" Type="number" Mode="In" />
+        </Function>
+        <Function Name="INSERTAR_EMPLEADOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_P" Type="number" Mode="In" />
+          <Parameter Name="NOMBRE_P" Type="varchar2" Mode="In" />
+          <Parameter Name="RUT_P" Type="number" Mode="In" />
+          <Parameter Name="DV_P" Type="varchar2" Mode="In" />
+          <Parameter Name="APELLIDO1_P" Type="varchar2" Mode="In" />
+          <Parameter Name="APELLIDO2_P" Type="varchar2" Mode="In" />
+          <Parameter Name="EDAD_P" Type="number" Mode="In" />
+          <Parameter Name="DIRECCION" Type="varchar2" Mode="In" />
+          <Parameter Name="IDCOMUNA_P" Type="number" Mode="In" />
+          <Parameter Name="IDUSUARIO_P" Type="number" Mode="In" />
+          <Parameter Name="IDAREA" Type="number" Mode="In" />
+        </Function>
+        <Function Name="INSERTAR_ROL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_P" Type="number" Mode="In" />
+          <Parameter Name="NOMBRE_P" Type="varchar2" Mode="In" />
+          <Parameter Name="DESC_P" Type="varchar2" Mode="In" />
+        </Function>
+        <Function Name="INSERTAR_ROL_EMPLEADO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID" Type="number" Mode="In" />
+          <Parameter Name="ID_ROL" Type="number" Mode="In" />
+          <Parameter Name="ID_EMPLEADO" Type="number" Mode="In" />
+        </Function>
+        <Function Name="INSERTAR_USUARIOS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="BDPORTAFOLIO">
+          <Parameter Name="ID_USUARIO_P" Type="number" Mode="In" />
+          <Parameter Name="CORREO_P" Type="varchar2" Mode="In" />
+          <Parameter Name="CLAVE_P" Type="varchar2" Mode="In" />
+        </Function>
         <EntityContainer Name="ModelStoreContainer">
-          <EntitySet Name="DEMO_ORDERS" EntityType="Self.DEMO_ORDERS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="AREA" EntityType="Self.AREA" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="DOCUMENTO" EntityType="Self.DOCUMENTO" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="DOCUMENTO_USUARIO" EntityType="Self.DOCUMENTO_USUARIO" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="EMPLEADOS" EntityType="Self.EMPLEADOS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="ESTADO_TAREA" EntityType="Self.ESTADO_TAREA" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="HISTORIA_TAREAS" EntityType="Self.HISTORIA_TAREAS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="PROVINCIA" EntityType="Self.PROVINCIA" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="REGION" EntityType="Self.REGION" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="ROL_USUARIO" EntityType="Self.ROL_USUARIO" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="ROLES" EntityType="Self.ROLES" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="RUBROS" EntityType="Self.RUBROS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="TAREA_ASIGNADA" EntityType="Self.TAREA_ASIGNADA" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="TAREA_HITO" EntityType="Self.TAREA_HITO" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="TAREAS" EntityType="Self.TAREAS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="USUARIOS" EntityType="Self.USUARIOS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <AssociationSet Name="AREA_FK1" Association="Self.AREA_FK1">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="AREA" EntitySet="AREA" />
+          </AssociationSet>
+          <AssociationSet Name="CLIENTE_FK1" Association="Self.CLIENTE_FK1">
+            <End Role="RUBROS" EntitySet="RUBROS" />
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="EMPLEADOS_FK1" Association="Self.EMPLEADOS_FK1">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+          <AssociationSet Name="EMPLEADOS_FK2" Association="Self.EMPLEADOS_FK2">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+          <AssociationSet Name="EMPLEADOS_FK3" Association="Self.EMPLEADOS_FK3">
+            <End Role="AREA" EntitySet="AREA" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+          <AssociationSet Name="ROL_USUARIO_FK1" Association="Self.ROL_USUARIO_FK1">
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+            <End Role="ROL_USUARIO" EntitySet="ROL_USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="ROL_USUARIO_FK2" Association="Self.ROL_USUARIO_FK2">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="ROL_USUARIO" EntitySet="ROL_USUARIO" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="DEMO_ORDERS">
-          <Key>
-            <PropertyRef Name="ORDER_ID" />
-          </Key>
-          <Property Name="ORDER_ID" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
-          <Property Name="CUSTOMER_ID" Type="Decimal" Precision="38" Scale="0" Nullable="false" />
-          <Property Name="ORDER_TOTAL" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="ORDER_TIMESTAMP" Type="DateTime" />
-          <Property Name="USER_ID" Type="Decimal" Precision="38" Scale="0" />
-        </EntityType>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="DEMO_ORDERS" EntityType="Self.DEMO_ORDERS" />
-        </EntityContainer>
-      </Schema>
+          <FunctionImport Name="INSERTAR_AREA">
+            <Parameter Name="ID_A" Mode="In" Type="Decimal" />
+            <Parameter Name="NOMBRE_A" Mode="In" Type="String" />
+            <Parameter Name="DESC_A" Mode="In" Type="String" />
+            <Parameter Name="ID_CLIENTE" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="BORRAR_AREA">
+          <Parameter Name="ID_D" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="ACTUALIZAR_AREA">
+            <Parameter Name="ID_P" Mode="In" Type="Decimal" />
+            <Parameter Name="NOMBRE_P" Mode="In" Type="String" />
+            <Parameter Name="DESC_P" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="INSERTAR_ROL">
+            <Parameter Name="ID_P" Mode="In" Type="Decimal" />
+            <Parameter Name="NOMBRE_P" Mode="In" Type="String" />
+            <Parameter Name="DESC_P" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ACTUALIZAR_EMPLEADO">
+            <Parameter Name="ID_EMPLEADO" Mode="In" Type="Decimal" />
+            <Parameter Name="SNOMBRE_EMPLEADO" Mode="In" Type="String" />
+            <Parameter Name="RUN_EMPLEADO" Mode="In" Type="Decimal" />
+            <Parameter Name="DV_EMPLEADO" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO1_P" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO2_P" Mode="In" Type="String" />
+            <Parameter Name="IDAREA" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="BORRAR_EMPLEADO">
+          <Parameter Name="ID_D" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="INSERTAR_EMPLEADOS">
+            <Parameter Name="ID_P" Mode="In" Type="Decimal" />
+            <Parameter Name="NOMBRE_P" Mode="In" Type="String" />
+            <Parameter Name="RUT_P" Mode="In" Type="Decimal" />
+            <Parameter Name="DV_P" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO1_P" Mode="In" Type="String" />
+            <Parameter Name="APELLIDO2_P" Mode="In" Type="String" />
+            <Parameter Name="EDAD_P" Mode="In" Type="Decimal" />
+            <Parameter Name="DIRECCION" Mode="In" Type="String" />
+            <Parameter Name="IDCOMUNA_P" Mode="In" Type="Decimal" />
+            <Parameter Name="IDUSUARIO_P" Mode="In" Type="Decimal" />
+            <Parameter Name="IDAREA" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="INSERTAR_USUARIOS">
+            <Parameter Name="ID_USUARIO_P" Mode="In" Type="Decimal" />
+            <Parameter Name="CORREO_P" Mode="In" Type="String" />
+            <Parameter Name="CLAVE_P" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="INSERTAR_ROL_EMPLEADO">
+            <Parameter Name="ID" Mode="In" Type="Decimal" />
+            <Parameter Name="ID_ROL" Mode="In" Type="Decimal" />
+            <Parameter Name="ID_EMPLEADO" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="BORRAR_USUARIO">
+          <Parameter Name="ID_D" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <EntitySet Name="AREA" EntityType="Model.AREA" />
+          <EntitySet Name="CLIENTE" EntityType="Model.CLIENTE" />
+          <EntitySet Name="COMUNA" EntityType="Model.COMUNA" />
+          <EntitySet Name="EMPLEADOS" EntityType="Model.EMPLEADOS" />
+          <EntitySet Name="ESTADO_TAREA" EntityType="Model.ESTADO_TAREA" />
+          <EntitySet Name="HISTORIA_TAREAS" EntityType="Model.HISTORIA_TAREAS" />
+          <EntitySet Name="PROVINCIA" EntityType="Model.PROVINCIA" />
+          <EntitySet Name="REGION" EntityType="Model.REGION" />
+          <EntitySet Name="ROL_USUARIO" EntityType="Model.ROL_USUARIO" />
+          <EntitySet Name="ROLES" EntityType="Model.ROLES" />
+          <EntitySet Name="RUBROS" EntityType="Model.RUBROS" />
+          <EntitySet Name="TAREA_ASIGNADA" EntityType="Model.TAREA_ASIGNADA" />
+          <EntitySet Name="TAREA_HITO" EntityType="Model.TAREA_HITO" />
+          <EntitySet Name="TAREAS" EntityType="Model.TAREAS" />
+          <EntitySet Name="USUARIOS" EntityType="Model.USUARIOS" />
+          <AssociationSet Name="AREA_FK1" Association="Model.AREA_FK1">
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+            <End Role="AREA" EntitySet="AREA" />
+          </AssociationSet>
+          <AssociationSet Name="EMPLEADOS_FK3" Association="Model.EMPLEADOS_FK3">
+            <End Role="AREA" EntitySet="AREA" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+          <AssociationSet Name="CLIENTE_FK1" Association="Model.CLIENTE_FK1">
+            <End Role="RUBROS" EntitySet="RUBROS" />
+            <End Role="CLIENTE" EntitySet="CLIENTE" />
+          </AssociationSet>
+          <AssociationSet Name="EMPLEADOS_FK2" Association="Model.EMPLEADOS_FK2">
+            <End Role="COMUNA" EntitySet="COMUNA" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+          <AssociationSet Name="EMPLEADOS_FK1" Association="Model.EMPLEADOS_FK1">
+            <End Role="USUARIOS" EntitySet="USUARIOS" />
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+          </AssociationSet>
+          <AssociationSet Name="ROL_USUARIO_FK1" Association="Model.ROL_USUARIO_FK1">
+            <End Role="EMPLEADOS" EntitySet="EMPLEADOS" />
+            <End Role="ROL_USUARIO" EntitySet="ROL_USUARIO" />
+          </AssociationSet>
+          <AssociationSet Name="ROL_USUARIO_FK2" Association="Model.ROL_USUARIO_FK2">
+            <End Role="ROLES" EntitySet="ROLES" />
+            <End Role="ROL_USUARIO" EntitySet="ROL_USUARIO" />
+          </AssociationSet>
+          <EntitySet Name="DOCUMENTO" EntityType="Model.DOCUMENTO" />
+          <EntitySet Name="DOCUMENTO_USUARIO" EntityType="Model.DOCUMENTO_USUARIO" />
+          </EntityContainer>
+        <EntityType Name="AREA">
+          <Key>
+            <PropertyRef Name="ID_AREA" />
+          </Key>
+          <Property Name="ID_AREA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_AREA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESC_AREA" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ID_CLIENTE" Type="Decimal" Precision="38" Scale="0" />
+          <NavigationProperty Name="CLIENTE" Relationship="Model.AREA_FK1" FromRole="AREA" ToRole="CLIENTE" />
+          <NavigationProperty Name="EMPLEADOS" Relationship="Model.EMPLEADOS_FK3" FromRole="AREA" ToRole="EMPLEADOS" />
+        </EntityType>
+        <EntityType Name="CLIENTE">
+          <Key>
+            <PropertyRef Name="ID_CLIENTE" />
+          </Key>
+          <Property Name="ID_CLIENTE" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_CLIENTE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESC_CLIENTE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ID_RUBRO" Type="Decimal" Precision="38" Scale="0" />
+          <NavigationProperty Name="AREA" Relationship="Model.AREA_FK1" FromRole="CLIENTE" ToRole="AREA" />
+          <NavigationProperty Name="RUBROS" Relationship="Model.CLIENTE_FK1" FromRole="CLIENTE" ToRole="RUBROS" />
+        </EntityType>
+        <EntityType Name="COMUNA">
+          <Key>
+            <PropertyRef Name="ID_COMUNA" />
+          </Key>
+          <Property Name="ID_COMUNA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_COMUNA" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="false" />
+          <Property Name="ID_PROVINCIA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <NavigationProperty Name="EMPLEADOS" Relationship="Model.EMPLEADOS_FK2" FromRole="COMUNA" ToRole="EMPLEADOS" />
+        </EntityType>
+        <EntityType Name="EMPLEADOS">
+          <Key>
+            <PropertyRef Name="ID_EMPLEADO" />
+          </Key>
+          <Property Name="ID_EMPLEADO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="SNOMBRE_EMPLEADO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PAPELLIDO_EMPLEADO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SAPELLIDO_EMPLEADO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EDAD_EMPLEADO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="RUN_EMPLEADO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="DV_EMPLEADO" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="DIRECCION" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ID_COMUNA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_AREA" Type="Decimal" Precision="38" Scale="0" />
+          <NavigationProperty Name="AREA" Relationship="Model.EMPLEADOS_FK3" FromRole="EMPLEADOS" ToRole="AREA" />
+          <NavigationProperty Name="COMUNA" Relationship="Model.EMPLEADOS_FK2" FromRole="EMPLEADOS" ToRole="COMUNA" />
+          <NavigationProperty Name="USUARIOS" Relationship="Model.EMPLEADOS_FK1" FromRole="EMPLEADOS" ToRole="USUARIOS" />
+          <NavigationProperty Name="ROL_USUARIO" Relationship="Model.ROL_USUARIO_FK1" FromRole="EMPLEADOS" ToRole="ROL_USUARIO" />
+        </EntityType>
+        <EntityType Name="ESTADO_TAREA">
+          <Key>
+            <PropertyRef Name="ID_ESTADO" />
+          </Key>
+          <Property Name="ID_ESTADO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_ESTADO" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="HISTORIA_TAREAS">
+          <Key>
+            <PropertyRef Name="HISTORIAL_TAREA" />
+          </Key>
+          <Property Name="HISTORIAL_TAREA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="PROVINCIA">
+          <Key>
+            <PropertyRef Name="ID_PROVINCIA" />
+          </Key>
+          <Property Name="ID_PROVINCIA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_PROVINCIA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ID_REGION" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="REGION">
+          <Key>
+            <PropertyRef Name="ID_REGION" />
+          </Key>
+          <Property Name="ID_REGION" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_REGION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ROL_USUARIO">
+          <Key>
+            <PropertyRef Name="ID_ROL_USER" />
+          </Key>
+          <Property Name="ID_ROL_USER" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_ROL" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_EMPLEADO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <NavigationProperty Name="EMPLEADOS" Relationship="Model.ROL_USUARIO_FK1" FromRole="ROL_USUARIO" ToRole="EMPLEADOS" />
+          <NavigationProperty Name="ROLES" Relationship="Model.ROL_USUARIO_FK2" FromRole="ROL_USUARIO" ToRole="ROLES" />
+        </EntityType>
+        <EntityType Name="ROLES">
+          <Key>
+            <PropertyRef Name="ID_ROL" />
+          </Key>
+          <Property Name="ID_ROL" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_ROL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESC_ROL" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ROL_USUARIO" Relationship="Model.ROL_USUARIO_FK2" FromRole="ROLES" ToRole="ROL_USUARIO" />
+        </EntityType>
+        <EntityType Name="RUBROS">
+          <Key>
+            <PropertyRef Name="ID_RUBRO" />
+          </Key>
+          <Property Name="ID_RUBRO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_RUBRO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESC_RUBRO" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CLIENTE" Relationship="Model.CLIENTE_FK1" FromRole="RUBROS" ToRole="CLIENTE" />
+        </EntityType>
+        <EntityType Name="TAREA_ASIGNADA">
+          <Key>
+            <PropertyRef Name="ID_TAREA_ASIGNADA" />
+          </Key>
+          <Property Name="ID_TAREA_ASIGNADA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_TAREA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_ESTADO" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TAREA_HITO">
+          <Key>
+            <PropertyRef Name="ID_HITO" />
+          </Key>
+          <Property Name="ID_HITO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_TAREA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_HISTORIAL" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="TAREAS">
+          <Key>
+            <PropertyRef Name="ID_TAREA" />
+          </Key>
+          <Property Name="ID_TAREA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_TAREA" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESC_TAREA" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_INICIO" Type="DateTime" />
+          <Property Name="DEADLINE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="FECHA_TERMINO" Type="DateTime" />
+          <Property Name="DIAS_TOTAL" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_CLIENTE" Type="Decimal" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="USUARIOS">
+          <Key>
+            <PropertyRef Name="ID_USUARIO" />
+          </Key>
+          <Property Name="ID_USUARIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="CORREO_USUARIO" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CONTRASEÑA_USUARIO" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="EMPLEADOS" Relationship="Model.EMPLEADOS_FK1" FromRole="USUARIOS" ToRole="EMPLEADOS" />
+        </EntityType>
+        <Association Name="AREA_FK1">
+          <End Type="Model.CLIENTE" Role="CLIENTE" Multiplicity="0..1" />
+          <End Type="Model.AREA" Role="AREA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CLIENTE">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Principal>
+            <Dependent Role="AREA">
+              <PropertyRef Name="ID_CLIENTE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMPLEADOS_FK3">
+          <End Type="Model.AREA" Role="AREA" Multiplicity="0..1" />
+          <End Type="Model.EMPLEADOS" Role="EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AREA">
+              <PropertyRef Name="ID_AREA" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_AREA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CLIENTE_FK1">
+          <End Type="Model.RUBROS" Role="RUBROS" Multiplicity="0..1" />
+          <End Type="Model.CLIENTE" Role="CLIENTE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RUBROS">
+              <PropertyRef Name="ID_RUBRO" />
+            </Principal>
+            <Dependent Role="CLIENTE">
+              <PropertyRef Name="ID_RUBRO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMPLEADOS_FK2">
+          <End Type="Model.COMUNA" Role="COMUNA" Multiplicity="0..1" />
+          <End Type="Model.EMPLEADOS" Role="EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="COMUNA">
+              <PropertyRef Name="ID_COMUNA" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_COMUNA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EMPLEADOS_FK1">
+          <End Type="Model.USUARIOS" Role="USUARIOS" Multiplicity="0..1" />
+          <End Type="Model.EMPLEADOS" Role="EMPLEADOS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USUARIOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Principal>
+            <Dependent Role="EMPLEADOS">
+              <PropertyRef Name="ID_USUARIO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ROL_USUARIO_FK1">
+          <End Type="Model.EMPLEADOS" Role="EMPLEADOS" Multiplicity="1" />
+          <End Type="Model.ROL_USUARIO" Role="ROL_USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EMPLEADOS">
+              <PropertyRef Name="ID_EMPLEADO" />
+            </Principal>
+            <Dependent Role="ROL_USUARIO">
+              <PropertyRef Name="ID_EMPLEADO" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ROL_USUARIO_FK2">
+          <End Type="Model.ROLES" Role="ROLES" Multiplicity="1" />
+          <End Type="Model.ROL_USUARIO" Role="ROL_USUARIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ROLES">
+              <PropertyRef Name="ID_ROL" />
+            </Principal>
+            <Dependent Role="ROL_USUARIO">
+              <PropertyRef Name="ID_ROL" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DOCUMENTO">
+          <Key>
+            <PropertyRef Name="ID_DOCUMENTO" />
+          </Key>
+          <Property Name="ID_DOCUMENTO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_DOCUMENTO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="GUID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="DOCUMENTO_USUARIO">
+          <Key>
+            <PropertyRef Name="ID_DOCUMENTO_USUARIO" />
+          </Key>
+          <Property Name="ID_DOCUMENTO_USUARIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_DOCUMENTO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="FECHA_CREACION" Type="DateTime" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="DEMO_ORDERS">
-            <EntityTypeMapping TypeName="Model.DEMO_ORDERS">
-              <MappingFragment StoreEntitySet="DEMO_ORDERS">
-                <ScalarProperty Name="ORDER_ID" ColumnName="ORDER_ID" />
-                <ScalarProperty Name="CUSTOMER_ID" ColumnName="CUSTOMER_ID" />
-                <ScalarProperty Name="ORDER_TOTAL" ColumnName="ORDER_TOTAL" />
-                <ScalarProperty Name="ORDER_TIMESTAMP" ColumnName="ORDER_TIMESTAMP" />
-                <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+          <FunctionImportMapping FunctionImportName="INSERTAR_AREA" FunctionName="Model.Store.INSERTAR_AREA" />
+          <FunctionImportMapping FunctionImportName="BORRAR_AREA" FunctionName="Model.Store.BORRAR_AREA" />
+          <FunctionImportMapping FunctionImportName="ACTUALIZAR_AREA" FunctionName="Model.Store.ACTUALIZAR_AREA" />
+          <FunctionImportMapping FunctionImportName="INSERTAR_ROL" FunctionName="Model.Store.INSERTAR_ROL" />
+          <FunctionImportMapping FunctionImportName="ACTUALIZAR_EMPLEADO" FunctionName="Model.Store.ACTUALIZAR_EMPLEADO" />
+          <FunctionImportMapping FunctionImportName="BORRAR_EMPLEADO" FunctionName="Model.Store.BORRAR_EMPLEADO" />
+          <FunctionImportMapping FunctionImportName="INSERTAR_EMPLEADOS" FunctionName="Model.Store.INSERTAR_EMPLEADOS" />
+          <FunctionImportMapping FunctionImportName="INSERTAR_USUARIOS" FunctionName="Model.Store.INSERTAR_USUARIOS" />
+          <FunctionImportMapping FunctionImportName="INSERTAR_ROL_EMPLEADO" FunctionName="Model.Store.INSERTAR_ROL_EMPLEADO" />
+          <FunctionImportMapping FunctionImportName="BORRAR_USUARIO" FunctionName="Model.Store.BORRAR_USUARIO" />
+          <EntitySetMapping Name="AREA">
+            <EntityTypeMapping TypeName="Model.AREA">
+              <MappingFragment StoreEntitySet="AREA">
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="DESC_AREA" ColumnName="DESC_AREA" />
+                <ScalarProperty Name="NOMBRE_AREA" ColumnName="NOMBRE_AREA" />
+                <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="CLIENTE">
+            <EntityTypeMapping TypeName="Model.CLIENTE">
+              <MappingFragment StoreEntitySet="CLIENTE">
+                <ScalarProperty Name="ID_RUBRO" ColumnName="ID_RUBRO" />
+                <ScalarProperty Name="DESC_CLIENTE" ColumnName="DESC_CLIENTE" />
+                <ScalarProperty Name="NOMBRE_CLIENTE" ColumnName="NOMBRE_CLIENTE" />
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COMUNA">
+            <EntityTypeMapping TypeName="Model.COMUNA">
+              <MappingFragment StoreEntitySet="COMUNA">
+                <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+                <ScalarProperty Name="NOMBRE_COMUNA" ColumnName="NOMBRE_COMUNA" />
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EMPLEADOS">
+            <EntityTypeMapping TypeName="Model.EMPLEADOS">
+              <MappingFragment StoreEntitySet="EMPLEADOS">
+                <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
+                <ScalarProperty Name="DIRECCION" ColumnName="DIRECCION" />
+                <ScalarProperty Name="DV_EMPLEADO" ColumnName="DV_EMPLEADO" />
+                <ScalarProperty Name="RUN_EMPLEADO" ColumnName="RUN_EMPLEADO" />
+                <ScalarProperty Name="EDAD_EMPLEADO" ColumnName="EDAD_EMPLEADO" />
+                <ScalarProperty Name="SAPELLIDO_EMPLEADO" ColumnName="SAPELLIDO_EMPLEADO" />
+                <ScalarProperty Name="PAPELLIDO_EMPLEADO" ColumnName="PAPELLIDO_EMPLEADO" />
+                <ScalarProperty Name="SNOMBRE_EMPLEADO" ColumnName="SNOMBRE_EMPLEADO" />
+                <ScalarProperty Name="ID_EMPLEADO" ColumnName="ID_EMPLEADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADO_TAREA">
+            <EntityTypeMapping TypeName="Model.ESTADO_TAREA">
+              <MappingFragment StoreEntitySet="ESTADO_TAREA">
+                <ScalarProperty Name="NOMBRE_ESTADO" ColumnName="NOMBRE_ESTADO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HISTORIA_TAREAS">
+            <EntityTypeMapping TypeName="Model.HISTORIA_TAREAS">
+              <MappingFragment StoreEntitySet="HISTORIA_TAREAS">
+                <ScalarProperty Name="HISTORIAL_TAREA" ColumnName="HISTORIAL_TAREA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROVINCIA">
+            <EntityTypeMapping TypeName="Model.PROVINCIA">
+              <MappingFragment StoreEntitySet="PROVINCIA">
+                <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+                <ScalarProperty Name="NOMBRE_PROVINCIA" ColumnName="NOMBRE_PROVINCIA" />
+                <ScalarProperty Name="ID_PROVINCIA" ColumnName="ID_PROVINCIA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REGION">
+            <EntityTypeMapping TypeName="Model.REGION">
+              <MappingFragment StoreEntitySet="REGION">
+                <ScalarProperty Name="NOMBRE_REGION" ColumnName="NOMBRE_REGION" />
+                <ScalarProperty Name="ID_REGION" ColumnName="ID_REGION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROL_USUARIO">
+            <EntityTypeMapping TypeName="Model.ROL_USUARIO">
+              <MappingFragment StoreEntitySet="ROL_USUARIO">
+                <ScalarProperty Name="ID_EMPLEADO" ColumnName="ID_EMPLEADO" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+                <ScalarProperty Name="ID_ROL_USER" ColumnName="ID_ROL_USER" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ROLES">
+            <EntityTypeMapping TypeName="Model.ROLES">
+              <MappingFragment StoreEntitySet="ROLES">
+                <ScalarProperty Name="DESC_ROL" ColumnName="DESC_ROL" />
+                <ScalarProperty Name="NOMBRE_ROL" ColumnName="NOMBRE_ROL" />
+                <ScalarProperty Name="ID_ROL" ColumnName="ID_ROL" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RUBROS">
+            <EntityTypeMapping TypeName="Model.RUBROS">
+              <MappingFragment StoreEntitySet="RUBROS">
+                <ScalarProperty Name="DESC_RUBRO" ColumnName="DESC_RUBRO" />
+                <ScalarProperty Name="NOMBRE_RUBRO" ColumnName="NOMBRE_RUBRO" />
+                <ScalarProperty Name="ID_RUBRO" ColumnName="ID_RUBRO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAREA_ASIGNADA">
+            <EntityTypeMapping TypeName="Model.TAREA_ASIGNADA">
+              <MappingFragment StoreEntitySet="TAREA_ASIGNADA">
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_TAREA_ASIGNADA" ColumnName="ID_TAREA_ASIGNADA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAREA_HITO">
+            <EntityTypeMapping TypeName="Model.TAREA_HITO">
+              <MappingFragment StoreEntitySet="TAREA_HITO">
+                <ScalarProperty Name="ID_HISTORIAL" ColumnName="ID_HISTORIAL" />
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+                <ScalarProperty Name="ID_HITO" ColumnName="ID_HITO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAREAS">
+            <EntityTypeMapping TypeName="Model.TAREAS">
+              <MappingFragment StoreEntitySet="TAREAS">
+                <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="DIAS_TOTAL" ColumnName="DIAS_TOTAL" />
+                <ScalarProperty Name="FECHA_TERMINO" ColumnName="FECHA_TERMINO" />
+                <ScalarProperty Name="DEADLINE" ColumnName="DEADLINE" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="DESC_TAREA" ColumnName="DESC_TAREA" />
+                <ScalarProperty Name="NOMBRE_TAREA" ColumnName="NOMBRE_TAREA" />
+                <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USUARIOS">
+            <EntityTypeMapping TypeName="Model.USUARIOS">
+              <MappingFragment StoreEntitySet="USUARIOS">
+                <ScalarProperty Name="CONTRASEÑA_USUARIO" ColumnName="CONTRASEÑA_USUARIO" />
+                <ScalarProperty Name="CORREO_USUARIO" ColumnName="CORREO_USUARIO" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DOCUMENTO">
+            <EntityTypeMapping TypeName="Model.DOCUMENTO">
+              <MappingFragment StoreEntitySet="DOCUMENTO">
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="NOMBRE_DOCUMENTO" ColumnName="NOMBRE_DOCUMENTO" />
+                <ScalarProperty Name="ID_DOCUMENTO" ColumnName="ID_DOCUMENTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DOCUMENTO_USUARIO">
+            <EntityTypeMapping TypeName="Model.DOCUMENTO_USUARIO">
+              <MappingFragment StoreEntitySet="DOCUMENTO_USUARIO">
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_DOCUMENTO" ColumnName="ID_DOCUMENTO" />
+                <ScalarProperty Name="ID_DOCUMENTO_USUARIO" ColumnName="ID_DOCUMENTO_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

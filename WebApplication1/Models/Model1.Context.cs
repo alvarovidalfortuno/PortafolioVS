@@ -12,6 +12,8 @@ namespace WebApplication1.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Entities : DbContext
     {
@@ -25,6 +27,220 @@ namespace WebApplication1.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<DEMO_ORDERS> DEMO_ORDERS { get; set; }
+        public virtual DbSet<AREA> AREA { get; set; }
+        public virtual DbSet<CLIENTE> CLIENTE { get; set; }
+        public virtual DbSet<COMUNA> COMUNA { get; set; }
+        public virtual DbSet<EMPLEADOS> EMPLEADOS { get; set; }
+        public virtual DbSet<ESTADO_TAREA> ESTADO_TAREA { get; set; }
+        public virtual DbSet<HISTORIA_TAREAS> HISTORIA_TAREAS { get; set; }
+        public virtual DbSet<PROVINCIA> PROVINCIA { get; set; }
+        public virtual DbSet<REGION> REGION { get; set; }
+        public virtual DbSet<ROL_USUARIO> ROL_USUARIO { get; set; }
+        public virtual DbSet<ROLES> ROLES { get; set; }
+        public virtual DbSet<RUBROS> RUBROS { get; set; }
+        public virtual DbSet<TAREA_ASIGNADA> TAREA_ASIGNADA { get; set; }
+        public virtual DbSet<TAREA_HITO> TAREA_HITO { get; set; }
+        public virtual DbSet<TAREAS> TAREAS { get; set; }
+        public virtual DbSet<USUARIOS> USUARIOS { get; set; }
+        public virtual DbSet<DOCUMENTO> DOCUMENTO { get; set; }
+        public virtual DbSet<DOCUMENTO_USUARIO> DOCUMENTO_USUARIO { get; set; }
+    
+        public virtual int INSERTAR_AREA(Nullable<decimal> iD_A, string nOMBRE_A, string dESC_A, Nullable<decimal> iD_CLIENTE)
+        {
+            var iD_AParameter = iD_A.HasValue ?
+                new ObjectParameter("ID_A", iD_A) :
+                new ObjectParameter("ID_A", typeof(decimal));
+    
+            var nOMBRE_AParameter = nOMBRE_A != null ?
+                new ObjectParameter("NOMBRE_A", nOMBRE_A) :
+                new ObjectParameter("NOMBRE_A", typeof(string));
+    
+            var dESC_AParameter = dESC_A != null ?
+                new ObjectParameter("DESC_A", dESC_A) :
+                new ObjectParameter("DESC_A", typeof(string));
+    
+            var iD_CLIENTEParameter = iD_CLIENTE.HasValue ?
+                new ObjectParameter("ID_CLIENTE", iD_CLIENTE) :
+                new ObjectParameter("ID_CLIENTE", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERTAR_AREA", iD_AParameter, nOMBRE_AParameter, dESC_AParameter, iD_CLIENTEParameter);
+        }
+    
+        public virtual int BORRAR_AREA(Nullable<decimal> iD_D)
+        {
+            var iD_DParameter = iD_D.HasValue ?
+                new ObjectParameter("ID_D", iD_D) :
+                new ObjectParameter("ID_D", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BORRAR_AREA", iD_DParameter);
+        }
+    
+        public virtual int ACTUALIZAR_AREA(Nullable<decimal> iD_P, string nOMBRE_P, string dESC_P)
+        {
+            var iD_PParameter = iD_P.HasValue ?
+                new ObjectParameter("ID_P", iD_P) :
+                new ObjectParameter("ID_P", typeof(decimal));
+    
+            var nOMBRE_PParameter = nOMBRE_P != null ?
+                new ObjectParameter("NOMBRE_P", nOMBRE_P) :
+                new ObjectParameter("NOMBRE_P", typeof(string));
+    
+            var dESC_PParameter = dESC_P != null ?
+                new ObjectParameter("DESC_P", dESC_P) :
+                new ObjectParameter("DESC_P", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ACTUALIZAR_AREA", iD_PParameter, nOMBRE_PParameter, dESC_PParameter);
+        }
+    
+        public virtual int INSERTAR_ROL(Nullable<decimal> iD_P, string nOMBRE_P, string dESC_P)
+        {
+            var iD_PParameter = iD_P.HasValue ?
+                new ObjectParameter("ID_P", iD_P) :
+                new ObjectParameter("ID_P", typeof(decimal));
+    
+            var nOMBRE_PParameter = nOMBRE_P != null ?
+                new ObjectParameter("NOMBRE_P", nOMBRE_P) :
+                new ObjectParameter("NOMBRE_P", typeof(string));
+    
+            var dESC_PParameter = dESC_P != null ?
+                new ObjectParameter("DESC_P", dESC_P) :
+                new ObjectParameter("DESC_P", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERTAR_ROL", iD_PParameter, nOMBRE_PParameter, dESC_PParameter);
+        }
+    
+        public virtual int ACTUALIZAR_EMPLEADO(Nullable<decimal> iD_EMPLEADO, string sNOMBRE_EMPLEADO, Nullable<decimal> rUN_EMPLEADO, string dV_EMPLEADO, string aPELLIDO1_P, string aPELLIDO2_P, Nullable<decimal> iDAREA)
+        {
+            var iD_EMPLEADOParameter = iD_EMPLEADO.HasValue ?
+                new ObjectParameter("ID_EMPLEADO", iD_EMPLEADO) :
+                new ObjectParameter("ID_EMPLEADO", typeof(decimal));
+    
+            var sNOMBRE_EMPLEADOParameter = sNOMBRE_EMPLEADO != null ?
+                new ObjectParameter("SNOMBRE_EMPLEADO", sNOMBRE_EMPLEADO) :
+                new ObjectParameter("SNOMBRE_EMPLEADO", typeof(string));
+    
+            var rUN_EMPLEADOParameter = rUN_EMPLEADO.HasValue ?
+                new ObjectParameter("RUN_EMPLEADO", rUN_EMPLEADO) :
+                new ObjectParameter("RUN_EMPLEADO", typeof(decimal));
+    
+            var dV_EMPLEADOParameter = dV_EMPLEADO != null ?
+                new ObjectParameter("DV_EMPLEADO", dV_EMPLEADO) :
+                new ObjectParameter("DV_EMPLEADO", typeof(string));
+    
+            var aPELLIDO1_PParameter = aPELLIDO1_P != null ?
+                new ObjectParameter("APELLIDO1_P", aPELLIDO1_P) :
+                new ObjectParameter("APELLIDO1_P", typeof(string));
+    
+            var aPELLIDO2_PParameter = aPELLIDO2_P != null ?
+                new ObjectParameter("APELLIDO2_P", aPELLIDO2_P) :
+                new ObjectParameter("APELLIDO2_P", typeof(string));
+    
+            var iDAREAParameter = iDAREA.HasValue ?
+                new ObjectParameter("IDAREA", iDAREA) :
+                new ObjectParameter("IDAREA", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ACTUALIZAR_EMPLEADO", iD_EMPLEADOParameter, sNOMBRE_EMPLEADOParameter, rUN_EMPLEADOParameter, dV_EMPLEADOParameter, aPELLIDO1_PParameter, aPELLIDO2_PParameter, iDAREAParameter);
+        }
+    
+        public virtual int BORRAR_EMPLEADO(Nullable<decimal> iD_D)
+        {
+            var iD_DParameter = iD_D.HasValue ?
+                new ObjectParameter("ID_D", iD_D) :
+                new ObjectParameter("ID_D", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BORRAR_EMPLEADO", iD_DParameter);
+        }
+    
+        public virtual int INSERTAR_EMPLEADOS(Nullable<decimal> iD_P, string nOMBRE_P, Nullable<decimal> rUT_P, string dV_P, string aPELLIDO1_P, string aPELLIDO2_P, Nullable<decimal> eDAD_P, string dIRECCION, Nullable<decimal> iDCOMUNA_P, Nullable<decimal> iDUSUARIO_P, Nullable<decimal> iDAREA)
+        {
+            var iD_PParameter = iD_P.HasValue ?
+                new ObjectParameter("ID_P", iD_P) :
+                new ObjectParameter("ID_P", typeof(decimal));
+    
+            var nOMBRE_PParameter = nOMBRE_P != null ?
+                new ObjectParameter("NOMBRE_P", nOMBRE_P) :
+                new ObjectParameter("NOMBRE_P", typeof(string));
+    
+            var rUT_PParameter = rUT_P.HasValue ?
+                new ObjectParameter("RUT_P", rUT_P) :
+                new ObjectParameter("RUT_P", typeof(decimal));
+    
+            var dV_PParameter = dV_P != null ?
+                new ObjectParameter("DV_P", dV_P) :
+                new ObjectParameter("DV_P", typeof(string));
+    
+            var aPELLIDO1_PParameter = aPELLIDO1_P != null ?
+                new ObjectParameter("APELLIDO1_P", aPELLIDO1_P) :
+                new ObjectParameter("APELLIDO1_P", typeof(string));
+    
+            var aPELLIDO2_PParameter = aPELLIDO2_P != null ?
+                new ObjectParameter("APELLIDO2_P", aPELLIDO2_P) :
+                new ObjectParameter("APELLIDO2_P", typeof(string));
+    
+            var eDAD_PParameter = eDAD_P.HasValue ?
+                new ObjectParameter("EDAD_P", eDAD_P) :
+                new ObjectParameter("EDAD_P", typeof(decimal));
+    
+            var dIRECCIONParameter = dIRECCION != null ?
+                new ObjectParameter("DIRECCION", dIRECCION) :
+                new ObjectParameter("DIRECCION", typeof(string));
+    
+            var iDCOMUNA_PParameter = iDCOMUNA_P.HasValue ?
+                new ObjectParameter("IDCOMUNA_P", iDCOMUNA_P) :
+                new ObjectParameter("IDCOMUNA_P", typeof(decimal));
+    
+            var iDUSUARIO_PParameter = iDUSUARIO_P.HasValue ?
+                new ObjectParameter("IDUSUARIO_P", iDUSUARIO_P) :
+                new ObjectParameter("IDUSUARIO_P", typeof(decimal));
+    
+            var iDAREAParameter = iDAREA.HasValue ?
+                new ObjectParameter("IDAREA", iDAREA) :
+                new ObjectParameter("IDAREA", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERTAR_EMPLEADOS", iD_PParameter, nOMBRE_PParameter, rUT_PParameter, dV_PParameter, aPELLIDO1_PParameter, aPELLIDO2_PParameter, eDAD_PParameter, dIRECCIONParameter, iDCOMUNA_PParameter, iDUSUARIO_PParameter, iDAREAParameter);
+        }
+    
+        public virtual int INSERTAR_USUARIOS(Nullable<decimal> iD_USUARIO_P, string cORREO_P, string cLAVE_P)
+        {
+            var iD_USUARIO_PParameter = iD_USUARIO_P.HasValue ?
+                new ObjectParameter("ID_USUARIO_P", iD_USUARIO_P) :
+                new ObjectParameter("ID_USUARIO_P", typeof(decimal));
+    
+            var cORREO_PParameter = cORREO_P != null ?
+                new ObjectParameter("CORREO_P", cORREO_P) :
+                new ObjectParameter("CORREO_P", typeof(string));
+    
+            var cLAVE_PParameter = cLAVE_P != null ?
+                new ObjectParameter("CLAVE_P", cLAVE_P) :
+                new ObjectParameter("CLAVE_P", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERTAR_USUARIOS", iD_USUARIO_PParameter, cORREO_PParameter, cLAVE_PParameter);
+        }
+    
+        public virtual int INSERTAR_ROL_EMPLEADO(Nullable<decimal> iD, Nullable<decimal> iD_ROL, Nullable<decimal> iD_EMPLEADO)
+        {
+            var iDParameter = iD.HasValue ?
+                new ObjectParameter("ID", iD) :
+                new ObjectParameter("ID", typeof(decimal));
+    
+            var iD_ROLParameter = iD_ROL.HasValue ?
+                new ObjectParameter("ID_ROL", iD_ROL) :
+                new ObjectParameter("ID_ROL", typeof(decimal));
+    
+            var iD_EMPLEADOParameter = iD_EMPLEADO.HasValue ?
+                new ObjectParameter("ID_EMPLEADO", iD_EMPLEADO) :
+                new ObjectParameter("ID_EMPLEADO", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("INSERTAR_ROL_EMPLEADO", iDParameter, iD_ROLParameter, iD_EMPLEADOParameter);
+        }
+    
+        public virtual int BORRAR_USUARIO(Nullable<decimal> iD_D)
+        {
+            var iD_DParameter = iD_D.HasValue ?
+                new ObjectParameter("ID_D", iD_D) :
+                new ObjectParameter("ID_D", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("BORRAR_USUARIO", iD_DParameter);
+        }
     }
 }

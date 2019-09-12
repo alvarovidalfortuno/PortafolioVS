@@ -1,0 +1,448 @@
+﻿<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    #regForm {
+        background-color: #ffffff;
+        margin: 100px auto;
+        font-family: Raleway;
+        padding: 40px;
+        width: 70%;
+        min-width: 300px;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    input {
+        padding: 10px;
+        width: 100%;
+        font-size: 17px;
+        font-family: Raleway;
+        border: 1px solid #aaaaaa;
+    }
+
+        /* Mark input boxes that gets an error on validation: */
+        input.invalid {
+            background-color: #ffdddd;
+        }
+
+    /* Hide all steps by default: */
+    .tab {
+        display: none;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-size: 17px;
+        font-family: Raleway;
+        cursor: pointer;
+    }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+    #prevBtn {
+        background-color: #bbbbbb;
+    }
+
+    /* Make circles that indicate the steps of the form: */
+    .step {
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbbbbb;
+        border: none;
+        border-radius: 50%;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+        .step.active {
+            opacity: 1;
+        }
+
+        /* Mark the steps that are finished and valid: */
+        .step.finish {
+            background-color: #4CAF50;
+        }
+</style>
+<body>
+
+    <form id="regForm">
+        <h1>Ingreso Empleado:</h1>
+        <!-- One "tab" for each step in the form: -->
+        <div class="tab">
+            Datos Personales:
+            <p><input placeholder="nombre..." oninput="this.className = ''" name="nombre" id="nombre_empleado"></p>
+            <p><input placeholder="segundo nombre..." oninput="this.className = ''" name="snombre_empleado" id="pnombre_empleado"></p>
+            <p><input placeholder="apellido paterno..." oninput="this.className = ''" name="papellido_empleado" id="papellido_empleado"></p>
+            <p><input placeholder="apellido materno nombre..." oninput="this.className = ''" name="sapellido_empleado" id="sapellido_empleado"></p>
+
+        </div>
+        <div class="tab">
+            Datos Personales:
+            <p><input placeholder="edad..." oninput="this.className = ''" name="edad" id="edad" onkeypress="return justNumbers(event);"></p>
+            <p><input placeholder="rut..." oninput="this.className = ''" name="run_empleado" id="run_empleado" onkeypress="return justNumbers(event);" maxlength="8" onchange="ValidaRut();" , Onkeyup="ValidaRut();"></p>
+            <p><input placeholder="dv..." oninput="this.className = ''" name="dv" id="dv" maxlength="1"></p>
+
+        </div>
+        <div class="tab">
+            Datos Personales
+            <p>
+                <select id="provincia" class="form-control" onchange="ddListChange()">
+                    <option value="">SELECCIONE</option>
+                    @foreach (var item in ViewBag.provincia)
+                    {
+                        <option value="@item.ID_PROVINCIA">@item.NOMBRE_PROVINCIA</option>
+                    }
+                </select>
+            </p>
+            <p>
+
+                <div id="comunaVistaParcial">
+
+                    <select id="comuna" class="form-control" style="width:200px">
+                        <option value="">SELECCIONE</option>
+                    </select>
+                </div>
+            </p>
+            <p><input placeholder="direccion..." oninput="this.className = ''" name="direccion" id="direccion"></p>
+
+        </div>
+
+
+        <div class="tab">
+            Area
+            <p>
+                <select id="cliente" class="form-control" onchange="ddListChange2()">
+                    <option value="">SELECCIONE</option>
+                    @foreach (var item in ViewBag.cliente)
+                    {
+                        <option value="@item.ID_CLIENTE">@item.NOMBRE_CLIENTE</option>
+                    }
+                </select>
+            </p>
+            <p>
+
+                <div id="areaVistaParcial">
+
+                    <select id="area" class="form-control" style="width:200px">
+                        <option value="">SELECCIONE</option>
+                    </select>
+                </div>
+            </p>
+         
+
+
+        </div>
+
+
+
+        <div class="tab">
+            Login Info:
+            <p><input placeholder="UserName." oninput="this.className = ''" name="email" type="email" id="email"></p>
+
+            <p><input placeholder="Password..." oninput="this.className = ''" name="pword" type="password" id="pword"></p>
+
+            <p>
+
+
+                <select id="rol" name="rol" class="form-control" required style="margin-left:0">
+                    <option value="">SELECCIONE</option>
+                    @foreach (var item in ViewBag.rol)
+                    {
+                        <option value="@item.ID_ROL">@item.NOMBRE_ROL</option>
+                    }
+                </select>
+
+
+            </p>
+        </div>
+        <div style="overflow:auto;">
+            <div style="float:right;">
+                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+                <input type="button" value="Crear usuario" class="btn btn-primary" onclick="return Ingreso();" id="boton" />
+
+
+            </div>
+        </div>
+
+
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+
+        </div>
+    </form>
+
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+    <link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+    <script>
+
+        $(document).ready(function () {
+            $("#boton").hide();
+    });
+
+
+        function Ingreso() {
+            //VALIDA MAIL
+    
+
+
+            alert($("#run_empleado").val());
+
+
+
+            var expre = /[\w-\.]{2,}@@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+
+            swal({
+                title: "¿ Desea Ingresar un nuevo usuario al sistema ?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Continuar",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "IngresoPersonaPost",
+
+                    data: {
+                        rut: $("#run_empleado").val(),
+                        dv: $("#dv").val(),
+                        nombre: $("#nombre_empleado").val(),
+                        apellido_paterno: $("#papellido_empleado").val(),
+                        apellido_materno: $("#sapellido_empleado").val(),
+                        edad:   $("#edad").val(),
+                        comuna: $("#comuna").val(),
+                        correo: $("#email").val(),
+                        pass: $("#pword").val(),
+                        direccion: $("#direccion").val(),
+                        cliente: $("#cliente").val(),
+                        area: $("#area").val(),
+                        rol: $("#rol").val()
+
+                    },
+
+                }).done(function (data) {
+
+                    if (data.Result == "OKTrue") {
+
+                        swal({
+                            title: "Usuario " + $("#nombre_empleado").val() + " " + $("#papellido_empleado").val(),
+
+                            text: "transacción ha sido creado con exito",
+                            type: "success"
+                        }, function () {
+                            window.location.href = '/EMPLEADOS/Index/'
+
+                        });
+
+                    }
+
+                    else if (data.Result == "OKFalse") {
+                        swal({
+                            title: "Usuario ya existe",
+                            text: "Transacción no realizada",
+                        }
+
+                            , function () {
+                                // location.reload();
+                            });
+                    }
+
+
+                }).fail(function () {
+
+                    alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+                })
+            });
+        }
+
+
+
+
+
+        function ValidaRut() {
+            var RUT = $("#rut").val();
+            var DV = $("#dv").val();
+
+            if (Fn.validaRut(RUT + '-' + DV) == true) {
+                $("#rut").css("background-color", "#eaffcc");
+                $("#dv").css("background-color", "#eaffcc");
+            }
+            else {
+                $("#rut").css("background-color", "#ffcccc");
+                $("#dv").css("background-color", "#ffcccc");
+            }
+        }
+
+
+        var Fn = {
+            // Valida el rut con su cadena completa "XXXXXXXX-X"
+            validaRut: function (rutCompleto) {
+                if (!/^[0-9]+-[0-9kK]{1}$/.test(rutCompleto))
+                    return false;
+                var tmp = rutCompleto.split('-');
+                var digv = tmp[1];
+                var rut = tmp[0];
+                if (digv == 'K') digv = 'k';
+                return (Fn.dv(rut) == digv);
+            },
+            dv: function (T) {
+                var M = 0, S = 1;
+                for (; T; T = Math.floor(T / 10))
+                    S = (S + T % 10 * (9 - M++ % 6)) % 11;
+                return S ? S - 1 : 'k';
+            }
+        }
+
+
+        //SOLO NUMERO
+        function justNumbers(e) {
+            var keynum = window.event ? window.event.keyCode : e.which;
+            if ((keynum == 8) || (keynum == 46))
+                return true;
+
+            return /\d/.test(String.fromCharCode(keynum));
+        }
+        ///FUNCION DESPLEGABLE COMUNAS
+        function ddListChange() {
+
+            $.ajax({
+                type: "POST",
+                url: '/EMPLEADOS/_DesplegableComuna',
+                data: {
+                    provincia: $("#provincia").val()
+                },
+                success: function (data) {
+
+                    $("#comunaVistaParcial").html(data);
+
+                }
+            }).fail(function () {
+                alert("Ups, algo malo ocurre, favor intémtalo mas tarde!.");
+            })
+
+        }
+
+        //FUNCION DESPLEGABLE AREAS
+        function ddListChange2() {
+
+            $.ajax({
+                type: "POST",
+                url: '/EMPLEADOS/_DesplegableArea',
+                data: {
+                    cliente: $("#cliente").val()
+                },
+                success: function (data) {
+
+                    $("#areaVistaParcial").html(data);
+
+                }
+            }).fail(function () {
+                alert("Ups, algo malo ocurre, favor intémtalo mas tarde!.");
+            })
+
+        }
+
+        var currentTab = 0; // Current tab is set to be the first tab (0)
+        showTab(currentTab); // Display the current tab
+
+        function showTab(n) {
+            // This function will display the specified tab of the form...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            //... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+            }
+            if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").innerHTML = "Submit";
+                $("#boton").show();
+
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+            }
+            //... and run a function that will display the correct step indicator:
+            fixStepIndicator(n)
+        }
+
+        function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Exit the function if any field in the current tab is invalid:
+            if (n == 1 && !validateForm()) return false;
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            // if you have reached the end of the form...
+            if (currentTab >= x.length) {
+                // ... the form gets submitted:
+                document.getElementById("regForm").submit();
+                return false;
+            }
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+        }
+
+        function validateForm() {
+            // This function deals with validation of the form fields
+            var x, y, i, valid = true;
+            x = document.getElementsByClassName("tab");
+            y = x[currentTab].getElementsByTagName("input");
+            // A loop that checks every input field in the current tab:
+            for (i = 0; i < y.length; i++) {
+                // If a field is empty...
+                if (y[i].value == "") {
+                    // add an "invalid" class to the field:
+                    y[i].className += " invalid";
+                    // and set the current valid status to false
+                    valid = false;
+                }
+            }
+            // If the valid status is true, mark the step as finished and valid:
+            if (valid) {
+                document.getElementsByClassName("step")[currentTab].className += " finish";
+            }
+            return valid; // return the valid status
+        }
+
+        function fixStepIndicator(n) {
+            // This function removes the "active" class of all steps...
+            var i, x = document.getElementsByClassName("step");
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+            }
+            //... and adds the "active" class on the current step:
+            x[n].className += " active";
+        }
+    </script>
+
+</body>
+</html>

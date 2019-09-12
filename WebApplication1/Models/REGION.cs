@@ -12,12 +12,9 @@ namespace WebApplication1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class DEMO_ORDERS
+    public partial class REGION
     {
-        public decimal ORDER_ID { get; set; }
-        public decimal CUSTOMER_ID { get; set; }
-        public Nullable<decimal> ORDER_TOTAL { get; set; }
-        public Nullable<System.DateTime> ORDER_TIMESTAMP { get; set; }
-        public Nullable<decimal> USER_ID { get; set; }
+        public decimal ID_REGION { get; set; }
+        public string NOMBRE_REGION { get; set; }
     }
 }

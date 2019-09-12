@@ -1,0 +1,391 @@
+﻿@{
+    ViewBag.Title = "Crear Persona";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Crear Persona</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Rut">Rut</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="rut" required name="rut" type="text" value="" maxlength="8" onchange="ValidaRut();" , Onkeyup="ValidaRut();" onkeypress="return justNumbers(event);">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Dv">Dv</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="dv" required name="rut" type="text" value="" maxlength="1" onchange="ValidaRut();" , Onkeyup="ValidaRut();">
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="nombre">Nombre</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="nombre" required name="nombre" type="text" value="">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="apellido_paterno">Apellido Paterno</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="apellido_paterno" required name="apellido_paterno" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="apellido_materno">Apellido Materno</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="apellido_materno" required name="apellido_materno" type="text" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="edad">Edad</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="edad" required name="edad" type="text" value="" onkeypress="return justNumbers(event);">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="correo_electronico">Correo Electronico</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="correo" required name="correo" type="email" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Provincia</label>
+                            <div class="col-md-10">
+                                @*<select  name="rol" class="form-control" required style="margin-left:0">*@
+                                <select id="provincia" class="form-control"  onchange="ddListChange()">
+                                    <option value="">SELECCIONE</option>
+                                    @foreach (var item in ViewBag.provincia)
+                                    {
+                                        <option value="@item.ID_PROVINCIA">@item.NOMBRE_PROVINCIA</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                            <div id="comunaVistaParcial">
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Comuna</label>
+                                    <div class="col-md-10">
+
+                                        <select id="comuna" class="form-control" style="width:200px">
+                                            <option value="">SELECCIONE</option>
+                                        </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Rol</label>
+                            <div class="col-md-10">
+                                <select id="rol" name="rol" class="form-control" required style="margin-left:0">
+                                    <option value="">SELECCIONE</option>
+                                    @foreach (var item in ViewBag.rol)
+                                    {
+                                        <option value="@item.ID_ROL">@item.NOMBRE_ROL</option>
+                                    }
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="button" value="Crear usuario" class="btn btn-primary" onclick="return Ingreso();" />
+                            </div>
+                            @Html.ActionLink("Regresar", "Index")
+
+                        </div>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+<link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script src="~/Scripts/Select/select2.js"></script>
+<link href="~/Scripts/Select/select2.css" rel="stylesheet" />
+<script type="text/javascript">
+
+    //FUNCION VALIDA RUT LEGITIMO
+    function ValidaRut() {
+        var RUT = $("#rut").val();
+        var DV = $("#dv").val();
+
+        if (Fn.validaRut(RUT + '-' + DV) == true) {
+            $("#rut").css("background-color", "#eaffcc");
+            $("#dv").css("background-color", "#eaffcc");
+        }
+        else {
+            $("#rut").css("background-color", "#ffcccc");
+            $("#dv").css("background-color", "#ffcccc");
+        }
+    }
+
+    //CADENAS EN RUT
+
+
+
+    var Fn = {
+        // Valida el rut con su cadena completa "XXXXXXXX-X"
+        validaRut: function (rutCompleto) {
+            if (!/^[0-9]+-[0-9kK]{1}$/.test(rutCompleto))
+                return false;
+            var tmp = rutCompleto.split('-');
+            var digv = tmp[1];
+            var rut = tmp[0];
+            if (digv == 'K') digv = 'k';
+            return (Fn.dv(rut) == digv);
+        },
+        dv: function (T) {
+            var M = 0, S = 1;
+            for (; T; T = Math.floor(T / 10))
+                S = (S + T % 10 * (9 - M++ % 6)) % 11;
+            return S ? S - 1 : 'k';
+        }
+    }
+
+    //SOLO NUMERO EN CAMPO RUT
+    function justNumbers(e) {
+        var keynum = window.event ? window.event.keyCode : e.which;
+        if ((keynum == 8) || (keynum == 46))
+            return true;
+
+        return /\d/.test(String.fromCharCode(keynum));
+    }
+
+    function ValidateEmail(email) {
+        var expr = /[\w-\.]{2,}@@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;;
+        return expr.test(email);
+    };
+
+
+    function Ingreso() {
+        //VALIDA MAIL
+
+        var expre = /[\w-\.]{2,}@@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+
+
+
+
+        if ($("#rut").val() == "") {
+
+            swal({
+                title: "Debe ingresar Rut.",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#rut").attr("required", true);
+
+            if (!$.trim($("#rut").val())) { $("#rut").css('border', '1px solid red') } else { $("#rut").css('border', '1px solid green') }
+            return false;
+        }
+
+        if ($("#dv").val() == "") {
+
+            swal({
+                title: "Debe ingresar digito verificador.",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#dv").attr("required", true);
+
+            if (!$.trim($("#dv").val())) { $("#dv").css('border', '1px solid red') } else { $("#dv").css('border', '1px solid green') }
+            return false;
+        }
+
+        if ($("#nombre").val() == "") {
+
+            swal({
+                title: "Debe ingresar nombre.",
+                //text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#nombre").attr("required", true);
+
+            if (!$.trim($("#nombre").val())) { $("#nombre").css('border', '1px solid red') } else { $("#nombre").css('border', '1px solid green') }
+            return false;
+        }
+
+        if ($("#apellido_paterno").val() == "") {
+
+            swal({
+                title: "Debe ingresar Apellido Paterno.",
+                //text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#apellido_paterno").attr("required", true);
+
+            if (!$.trim($("#apellido_paterno").val())) { $("#apellido_paterno").css('border', '1px solid red') } else { $("#apellido_paterno").css('border', '1px solid green') }
+            return false;
+        }
+
+        if ($("#correo").val() == "") {
+
+            $("#correo").css('border', '1px solid red');
+            $("#correo_personal").css('border', '1px solid red');
+
+            swal({
+                title: "Ingrese Correo",
+                type: "warning"
+            });
+            return false;
+        }
+        else if (expre.test($("#correo").val().trim()) == false && $("#correo").val() != "") {
+
+            swal({
+                title: "Validación",
+                text: "El formato del correo  no es valido",
+                type: "warning"
+            });
+            return false;
+        }
+
+        if ($("#rol").val() == "") {
+
+            swal({
+                title: "Debe ingresar Rol.",
+                //text: "You will not be able to recover this imaginary file!",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#rol").attr("required", true);
+
+            if (!$.trim($("#rol").val())) { $("#rol").css('border', '1px solid red') } else { $("#rol").css('border', '1px solid green') }
+            return false;
+        }
+
+        var rut = $("#rut").val();
+        var rutStr = rut.replace(".", "");
+
+
+        swal({
+            title: "¿ Desea Ingresar un nuevo usuario al sistema ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false
+        }, function () {
+
+            $.ajax({
+                type: "POST",
+                url: "IngresoPersonaPost",
+
+                data: {
+                    rut: $("#rut").val(),
+                    dv: $("#dv").val(),
+                    nombre: $("#nombre").val(),
+                    apellido_paterno: $("#apellido_paterno").val(),
+                    apellido_materno: $("#apellido_materno").val(),
+                    correo: $("#correo").val(),
+                    rol: $("#rol").val()
+
+                },
+
+            }).done(function (data) {
+
+                if (data.Result == "OKTrue") {
+
+                    swal({
+                        title: "Usuario " + $("#nombre").val() + " " + $("#apellido_paterno").val(),
+
+                        text: "transacción ha sido creado con exito",
+                        type: "success"
+                    }, function () {
+                        location.reload();
+                    });
+
+                }
+
+                else if (data.Result == "OKFalse") {
+                    swal({
+                        title: "Usuario ya existe",
+                        text: "Transacción no realizada",
+                    }
+
+                        , function () {
+                            // location.reload();
+                        });
+                }
+
+
+            }).fail(function () {
+
+                alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+            })
+        });
+    }
+
+
+    //CARGA DDL UNIDADES
+    function ddListChange() {
+
+        $.ajax({
+            type: "POST",
+            url: '/EMPLEADOS/_DesplegableComuna',
+            data: {
+                provincia: $("#provincia").val()
+            },
+            success: function (data) {
+
+                $("#comunaVistaParcial").html(data);
+
+            }
+        }).fail(function () {
+            alert("Ups, algo malo ocurre, favor intémtalo mas tarde!.");
+        })
+
+    }
+
+    //$(document).ready(function () {
+    //    $("#provincia").select2({
+    //        theme: "bootstrap"
+    //    });
+    //});
+</script>

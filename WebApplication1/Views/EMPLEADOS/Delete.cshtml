@@ -1,0 +1,128 @@
+﻿@model WebApplication1.Models.EMPLEADOS
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Eliminar usuario</h2>
+
+
+
+    <input id="hidden" value="@Html.DisplayFor(model => model.ID_EMPLEADO)" type="hidden" />
+
+    <h4>EMPLEADOS</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+          NOMBRE
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SNOMBRE_EMPLEADO)
+        </dd>
+
+        <dt>
+          APELLIDO PATERNO
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PAPELLIDO_EMPLEADO)
+        </dd>
+
+        <dt>
+           APELLIDO MATERNO
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SAPELLIDO_EMPLEADO)
+        </dd>
+
+
+        <dt>
+            RUT
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RUN_EMPLEADO)
+        </dd>
+
+        <dt>
+            DV
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DV_EMPLEADO)
+        </dd>
+    
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="button" value="Borrar Usuario" class="btn btn-danger" onclick="return BorrarUsuario();" />
+
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+<link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var x = $("#hidden").val();
+    });
+
+    function BorrarUsuario() {
+        swal({
+            title: "¿ Desea  Eliminar usuario del sistema ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false
+        }, function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/EMPLEADOS/BorrarPersona/",
+                data:
+                { id : $("#hidden").val() },
+            }).done(function (data) {
+
+                if (data.Result == "OK")
+                {
+                    swal({
+                        title: "Usuario Eliminado",
+                        text: "transacción ha sido creado con exito",
+                        type: "success"
+                    }, function () {
+                        window.location.href = '/EMPLEADOS/Index/'
+
+                    });
+                }
+                else if (data.Result == "OKFalse") {
+                    swal({
+                        title: "Error",
+                        text: "Transacción no realizada",
+                    }, function () {
+                             //location.reload();
+                       });
+                }
+            }).fail(function () {
+
+                alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+            })
+        });
+    }
+
+</script>

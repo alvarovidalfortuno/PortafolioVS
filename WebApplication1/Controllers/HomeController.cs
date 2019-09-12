@@ -26,5 +26,22 @@ namespace WebApplication1.Controllers
 
             return View();
         }
+
+
+        public ActionResult Menu()
+        {
+
+
+            if (Session["usuario"] == null)
+            {
+                ViewBag.tiene_menu = 0;
+            }
+            else
+            {
+                ViewBag.tiene_menu = 1;
+            }
+
+            return PartialView();
+        }
     }
 }

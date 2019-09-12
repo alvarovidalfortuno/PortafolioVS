@@ -1,0 +1,189 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            @*<div class="ibox float-e-margins">*@
+            <div class="ibox float-e-margins" style="height: 650px; overflow-y: auto;">
+                <div class="ibox-title">
+                    <h5>Crear Tarea</h5>
+                </div>
+                <div class="ibox-content">
+
+       
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="nombre">Título Tarea</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="nombre_tarea" required name="nombre_tarea" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="nombre">Deadline</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="deadline" required name="deadline" type="text" value="" onkeypress="return justNumbers(event);">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="descripcion">Descripción </label>
+                            <div class="col-md-10">
+                                <textarea id="descripcion_tarea" required name="descripcion_tarea" class="form-control" rows="4"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label id="lbl1" class="control-label col-md-2">Documentos</label>
+                            <div class="col-md-10">
+                                <input id="SubirArchivos" type="file" name="SubirArchivos" multiple="multiple" class="form-control" />
+                                Nota: para limpiar la selección, sólo debes volver a elegir archivos!
+                                El tamaño del archivo no debe ser superior a 5MB
+                            </div>
+                        </div>
+
+
+                        <div class="form-group" id="caja_botones">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input onclick="return  Ingreso();" value="Crear" class="btn btn-primary" />
+                                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-white" })
+                                <button onclick="location.href='@Url.Action("Cancelar","Index")'; return false;" class="btn btn-danger">Borrar</button>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="mensaje_error" value="@ViewBag.mensaje_error" />
+
+    @section Styles {
+        <link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+    }
+
+    @section Scripts {
+        <script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+        <script src="../Scripts/jquery-3.3.1.min.js"></script>
+
+        <script type="text/javascript">
+
+
+
+
+
+            function Ingreso() {
+
+                var filedata = new FormData();
+                filedata.append('archivo', $('#SubirArchivos')[0].files[0]);
+                filedata.append('nombre_tarea', $('#nombre_tarea').val());
+                filedata.append('deadline', $('#deadline').val());
+                filedata.append('descripcion_tarea', $('#descripcion_tarea').val());
+
+
+
+                swal({
+                    title: "¿ Desea Ingresar una nueva tarea ?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Continuar",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false
+                }, function () {
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("CrearTarea")',
+
+                        data: filedata,
+                        contentType: false,
+                        processData: false
+
+                    }).done(function (data) {
+
+                        if (data.Result == "OK") {
+
+                            swal({
+                                title: "Tarea Creada",
+
+                                text: "transacción ha sido creado con exito",
+                                type: "success"
+                            }, function () {
+                                window.location.href = '/TAREAS/Index/'
+
+                            });
+
+                        }
+
+                        else if (data.Result == "ERROR") {
+                            swal({
+                                title:  "error",
+                                text: "Transacción no realizada",
+                            }
+
+                                , function () {
+                                });
+                        }
+
+
+                    }).fail(function () {
+
+                        alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+                    })
+                });
+            }
+
+
+            $(document).ready(function () {
+
+
+
+
+
+                //validación de documentos
+                var validacion_ducumentos = "";
+                var file_name = "SubirArchivos";
+                var totalFiles = document.getElementById(file_name).files.length;
+
+                var cantidad_total_de_archivos = 0;
+
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById(file_name).files[i];
+                    cantidad_total_de_archivos = cantidad_total_de_archivos + parseInt(file.size);
+                    if (file.size > 5255446) {
+                        validacion_ducumentos = "El archivo " + file.name + " excede el tamaño maximo de 5MB permitidos";
+                    }
+                }
+
+                if (cantidad_total_de_archivos > 5255446 && validacion_ducumentos == "") {
+                    validacion_ducumentos = "El total de los archivos excede el tamaño maximo de 5MB permitidos"
+                }
+
+
+
+            });
+
+
+            function justNumbers(e) {
+                var keynum = window.event ? window.event.keyCode : e.which;
+                if ((keynum == 8) || (keynum == 46))
+                    return true;
+
+                return /\d/.test(String.fromCharCode(keynum));
+            }
+
+
+
+        </script>
+    }
+

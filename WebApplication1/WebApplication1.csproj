@@ -177,13 +177,39 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AREAsController.cs" />
+    <Compile Include="Controllers\CerrarSesionController.cs" />
+    <Compile Include="Controllers\EMPLEADOSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ROLESController.cs" />
+    <Compile Include="Controllers\TAREASController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\DEMO_ORDERS.cs">
+    <Compile Include="Models\AREA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CLIENTE.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\COMUNA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DOCUMENTO.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DOCUMENTO_USUARIO.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EMPLEADOS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ESTADO_TAREA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HISTORIA_TAREAS.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
@@ -203,6 +229,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PROVINCIA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\REGION.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ROLES.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ROL_USUARIO.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RUBROS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TAREAS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TAREA_ASIGNADA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TAREA_HITO.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\USUARIOS.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -211,12 +264,16 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Datatable\buttons.dataTables.css" />
+    <Content Include="Content\Datatable\datatables.min.css" />
+    <Content Include="Content\Datatable\jquery.dataTables.min.css" />
     <Content Include="Content\SweetAlert\sweetalert.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Imagenes\cas-padlock-icon.png" />
+    <Content Include="jquery.dataTables.min.js" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -237,6 +294,17 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Datatable\buttons.flash.min.js" />
+    <Content Include="Scripts\Datatable\dataTables.buttons.min.js" />
+    <Content Include="Scripts\Datatable\datatables.min.js" />
+    <Content Include="Scripts\Datatable\html5.min.js" />
+    <Content Include="Scripts\Datatable\jquery.dataTables.min.js" />
+    <Content Include="Scripts\Datatable\jszip.min.js" />
+    <Content Include="Scripts\Datatable\pdf.min.js" />
+    <Content Include="Scripts\Datatable\pdf2.js" />
+    <Content Include="Scripts\Datatable\print.min.js" />
+    <Content Include="Scripts\Datatable\swf\copy_csv_xls.swf" />
+    <Content Include="Scripts\Datatable\swf\copy_csv_xls_pdf.swf" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -247,6 +315,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Select\select2.css" />
+    <Content Include="Scripts\Select\select2.js" />
     <Content Include="Scripts\SweetAlert\sweetalert.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -284,9 +354,31 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\ROLES\Create.cshtml" />
+    <Content Include="Views\ROLES\Delete.cshtml" />
+    <Content Include="Views\ROLES\Details.cshtml" />
+    <Content Include="Views\ROLES\Edit.cshtml" />
+    <Content Include="Views\ROLES\Index.cshtml" />
+    <Content Include="Views\EMPLEADOS\Create.cshtml" />
+    <Content Include="Views\EMPLEADOS\Delete.cshtml" />
+    <Content Include="Views\EMPLEADOS\Details.cshtml" />
+    <Content Include="Views\EMPLEADOS\Edit.cshtml" />
+    <Content Include="Views\EMPLEADOS\Index.cshtml" />
+    <Content Include="Views\EMPLEADOS\_DesplegableComuna.cshtml" />
+    <Content Include="Views\AREAs\Create.cshtml" />
+    <Content Include="Views\AREAs\Delete.cshtml" />
+    <Content Include="Views\AREAs\Details.cshtml" />
+    <Content Include="Views\AREAs\Edit.cshtml" />
+    <Content Include="Views\AREAs\Index.cshtml" />
+    <Content Include="Views\EMPLEADOS\Crear2.cshtml" />
+    <Content Include="Views\EMPLEADOS\_DesplegableArea.cshtml" />
+    <Content Include="Views\Home\Menu.cshtml" />
+    <Content Include="Views\TAREAS\Create.cshtml" />
+    <Content Include="Views\TAREAS\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\CerrarSesion\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

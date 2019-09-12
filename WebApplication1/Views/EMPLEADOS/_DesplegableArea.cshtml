@@ -1,0 +1,19 @@
+﻿@*<div class="form-group">*@
+
+@*<label class="control-label col-md-2">Comuna</label>*@
+@*<div class="col-md-10">*@
+<select id="area" class="form-control" style="width:200px">
+    <option value=" ">SELECCIONE</option>
+
+    @foreach (var item in ViewBag.area)
+    {
+        <option value="@item.ID_AREA">@item.NOMBRE_AREA   </option>
+
+    }
+</select>
+@*</div>*@
+
+@*</div>*@
+
+
+

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<WebApplication1.Models.EMPLEADOS>
+
+
+
+<p>
+    <button onclick="location.href='@Url.Action("Crear2", "EMPLEADOS")';return false;" class="btn btn-primary">Crear</button>
+
+</p>
+<table ID="table" class="table table-striped table-bordered table-hover dataTables-example">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Age</th>
+            <th>Start date</th>
+            <th>Salary</th>
+            <th>Salary</th>
+            <th>Salary</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SNOMBRE_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PAPELLIDO_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SAPELLIDO_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EDAD_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RUN_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DV_EMPLEADO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DIRECCION)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.COMUNA.NOMBRE_COMUNA)
+                </td>
+
+                <td>
+                    <button onclick="location.href='@Url.Action("Edit", "EMPLEADOS",new { id = item.ID_EMPLEADO })';return false;" class="btn btn-primary">Editar</button>
+
+                    <button onclick="location.href='@Url.Action("Delete","EMPLEADOS",new { id = item.ID_EMPLEADO })'; return false;" class="btn btn-danger">Borrar</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+<script src="../Scripts/jquery-3.3.1.min.js"></script>
+
+@section Styles {
+    <link href="~/Content/Datatable/datatables.min.css" rel="stylesheet" />
+    @*<link href="~/Content/Datatable/buttons.dataTables.css" rel="stylesheet" />*@
+    @*<link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+
+
+}
+@section Scripts {
+    <script src="~/Scripts/Datatable/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/Datatable/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/Datatable/buttons.flash.min.js"></script>
+    <script src="~/Scripts/Datatable/jszip.min.js"></script>
+    <script src="~/Scripts/Datatable/pdf.min.js"></script>
+    <script src="~/Scripts/Datatable/pdf2.js"></script>
+    <script src="~/Scripts/Datatable/html5.min.js"></script>
+    <script src="~/Scripts/Datatable/print.min.js"></script>
+
+
+    <script src="~/Scripts/Datatable/datatables.min.js"></script>
+
+    @*<script src="~/Scripts/Datatable/dataTables.buttons.min.js"></script>*@
+    @*<script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#table').DataTable({
+
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf'
+                ]
+            });
+
+        });
+
+    </script>
+}

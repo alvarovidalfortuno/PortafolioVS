@@ -1,0 +1,106 @@
+﻿@model WebApplication1.Models.AREA
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Estas seguro de eliminar registro?</h3>
+<div>
+    <hr />
+
+
+    <input id="hidden" value="@Html.DisplayFor(model => model.ID_AREA)" type="hidden" />
+
+    <dl class="dl-horizontal">
+        <dt>
+            NOMBRE AREA
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOMBRE_AREA)
+        </dd>
+
+        <dt>
+           DESCRIPCION
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESC_AREA)
+        </dd>
+
+        <dt>
+           CLIENTE
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CLIENTE.NOMBRE_CLIENTE)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="button" value="Borrar Usuario" class="btn btn-danger" onclick="return BorrarArea();" />
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+<link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var x = $("#hidden").val();
+    });
+
+    function BorrarArea() {
+        swal({
+            title: "¿ Desea  Eliminar Area del sistema ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false
+        }, function () {
+
+            $.ajax({
+                type: "POST",
+                url: "/AREAs/BorrarArea/",
+                data:
+                    { id: $("#hidden").val() },
+            }).done(function (data) {
+
+                if (data.Result == "OK") {
+                    swal({
+                        title: "Area Eliminada",
+                        text: "transacción ha sido creado con exito",
+                        type: "success"
+                    }, function () {
+                        window.location.href = '/AREAs/Index/'
+
+                    });
+                }
+                else if (data.Result == "OKFalse") {
+                    swal({
+                        title: "Error",
+                        text: "Transacción no realizada",
+                    }, function () {
+                        //location.reload();
+                    });
+                }
+            }).fail(function () {
+
+                alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+            })
+        });
+    }
+
+</script>
+

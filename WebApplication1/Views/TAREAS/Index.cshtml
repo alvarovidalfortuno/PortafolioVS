@@ -1,0 +1,114 @@
+﻿@model IEnumerable<WebApplication1.Models.TAREAS>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Listado de tareas</h5>
+                    <div class="ibox-tools">
+                        @Html.ActionLink("Crear Tarea", "Create", null, new { @class = "btn btn-primary btn-xs" })
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="table table-striped" id="table">
+                        <tr>
+                            <th>
+                                Tarea
+                            </th>
+                            <th>
+                                fecha Creacion
+                            </th>
+                            <th>
+                                Nombre Tarea
+                            </th>
+                            <th>
+                                Descripción Tarea
+                            </th>
+                            <th></th>
+                        </tr>
+
+
+                        @*@foreach (var item in )
+                        {*@
+                            <tr>
+                                <td>
+                                   
+                                </td>
+                                <td>
+                                   
+                                </td>
+                                <td>
+
+                                  
+
+                                </td>
+
+                                <td>
+
+                                  
+
+                                </td>
+
+                                <td>
+
+                                    @*@Html.ActionLink("Detalle", "Details", new { id = item.id }, new { @class = "btn btn-primary btn-sm" })
+                                        @Html.ActionLink("Editar", "Edit", new { id = item.id }, new { @class = "btn btn-white btn-sm" })
+                                        @Html.ActionLink("Eliminar", "Delete", new { id = item.id }, new { @class = "btn btn-white btn-sm" })*@
+
+                                </td>
+
+                            </tr>
+                        @*}*@
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link href="~/Content/Datatable/datatables.min.css" rel="stylesheet" />
+    @*<link href="~/Content/Datatable/buttons.dataTables.css" rel="stylesheet" />*@
+    @*<link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+
+
+}
+@section Scripts {
+    <script src="~/Scripts/Datatable/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/Datatable/dataTables.buttons.min.js"></script>
+    <script src="~/Scripts/Datatable/buttons.flash.min.js"></script>
+    <script src="~/Scripts/Datatable/jszip.min.js"></script>
+    <script src="~/Scripts/Datatable/pdf.min.js"></script>
+    <script src="~/Scripts/Datatable/pdf2.js"></script>
+    <script src="~/Scripts/Datatable/html5.min.js"></script>
+    <script src="~/Scripts/Datatable/print.min.js"></script>
+
+
+    <script src="~/Scripts/Datatable/datatables.min.js"></script>
+
+    @*<script src="~/Scripts/Datatable/dataTables.buttons.min.js"></script>*@
+    @*<script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#table').DataTable({
+
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf'
+                ]
+            });
+
+        });
+
+    </script>
+}

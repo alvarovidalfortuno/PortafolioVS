@@ -1,0 +1,144 @@
+﻿@model WebApplication1.Models.ROLES
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Crear Rol</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h1>ROLES</h1>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Rut">ROL</label>
+
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NOMBRE_ROL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NOMBRE_ROL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Rut">DESCRIPCION</label>
+
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DESC_ROL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DESC_ROL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Crear Area" class="btn btn-primary" onclick="return IngresoRol();" />
+
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+<link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+<script type="text/javascript">
+
+    function IngresoRol() {
+
+        if ($("#NOMBRE_ROL").val() == "") {
+
+        swal({
+            title: "Debe ingresar Nombre de Rol.",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            closeOnConfirm: false
+        });
+
+            $("#NOMBRE_ROL").attr("required", true);
+
+            if (!$.trim($("#NOMBRE_ROL").val())) { $("#NOMBRE_ROL").css('border', '1px solid red') } else { $("#NOMBRE_ROL").css('border', '1px solid green')}
+    return false;
+}
+        if ($("#DESC_ROL").val() == "") {
+
+        swal({
+            title: "Debe ingresar Rol.",
+            type: "warning",
+            confirmButtonColor: "#DD6B55",
+            closeOnConfirm: false
+        });
+
+            $("#DESC_ROL").attr("required", true);
+
+            if (!$.trim($("#DESC_ROL").val())) { $("#DESC_ROL").css('border', '1px solid red') } else { $("#DESC_ROL").css('border', '1px solid green')}
+    return false;
+}
+
+    swal({
+        title: "¿ Desea Ingresar un rol al sistema ?",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "Continuar",
+    cancelButtonText: "Cancelar",
+    closeOnConfirm: false
+    }, function () {
+
+        $.ajax({
+            type: "POST",
+            url: "IngresoRol",
+
+            data: {
+                nombre_rol: $("#NOMBRE_ROL").val(),
+                desc_rol: $("#DESC_ROL").val()
+            },
+
+        }).done(function (data) {
+
+            if (data.Result == "OKTrue") {
+
+                swal({
+                    title: "Rol Creado: " + $("#NOMBRE_ROL").val(),
+
+                    text: "transacción ha sido creado con exito",
+                    type: "success"
+                }, function () {
+                    location.reload();
+                });
+
+            }
+
+            else if (data.Result == "OKFalse") {
+                swal({
+                    title: "Rol ya existe",
+                    text: "Transacción no realizada",
+                }
+
+                    , function () {
+                        // location.reload();
+                    });
+            }
+
+        }).fail(function () {
+
+            alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+        })
+    });
+}
+</script>
