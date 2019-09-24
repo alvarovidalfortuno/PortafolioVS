@@ -18,5 +18,6 @@ namespace WebApplication1.Models
         public Nullable<decimal> ID_USUARIO { get; set; }
         public Nullable<decimal> ID_TAREA { get; set; }
         public Nullable<decimal> ID_ESTADO { get; set; }
+        public Nullable<decimal> ID_ASIGNADOR { get; set; }
     }
 }

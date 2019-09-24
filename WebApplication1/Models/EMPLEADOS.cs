@@ -31,6 +31,7 @@ namespace WebApplication1.Models
         public Nullable<decimal> ID_COMUNA { get; set; }
         public Nullable<decimal> ID_USUARIO { get; set; }
         public Nullable<decimal> ID_AREA { get; set; }
+        public Nullable<decimal> ID_CARGO { get; set; }
     
         public virtual AREA AREA { get; set; }
         public virtual COMUNA COMUNA { get; set; }

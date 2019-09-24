@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    var claseFinalizado = "btn btn-success  btn-xs demo2";
+    var clasePendiente = "btn btn-xs btn-danger";
+    var claseRechazo = "btn btn-xs btn-warning";
+}
+
+<table class="table table-striped" id="table">
+    <thead>
+        <tr>
+            <th>1</th>
+            <th>Estado</th>
+            <th>Tarea</th>
+            <th>Fecha Creacion</th>
+            <th>Fecha Termino</th>
+            <th>Responsable</th>
+            <th>Desc</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in ViewBag.tarea)
+        {
+
+            var flecha_azul = "Reqflecha_azul" + item.tarea_id;
+            var flecha_roja = "Reqflecha_roja" + item.tarea_id;
+
+            @*<input id="hiddenIdTareaAsignada" type="text" value="@item.tareaResponsableId">*@
+
+            <tr>
+
+
+
+
+
+                @if (item.estado != 2)
+                {
+                    ///1  =  pendiente
+                    <td class="detalle-reporte-tareas" id="@item.tarea_id">
+                        <a id="@flecha_azul" class="btn btn-success btn-xs"><i class="fa fa-arrow-down"></i></a>
+                        <a style="display:none" id="@flecha_roja" class="btn btn-danger btn-xs"><i class="fa fa-arrow-up"></i></a>
+                    </td>
+                }
+                else
+                {
+
+                    <td id="@item.tarea_id">  <a class="fa fa-minus"></a> </td>
+                }
+
+
+                @if (item.estado == 1)
+                {
+
+                    <td>
+                        <input value="Pendiente" class="@clasePendiente" />
+
+                    </td>
+                }
+                @if (item.estado == 2)
+                {
+                    <td>
+                        <input value="Finalizado" class="@claseFinalizado" />
+                    </td>
+                }
+
+                @if (item.estado == 3)
+                {
+
+                    <td>
+                        <input value="Rechazado" class="@claseRechazo" />
+                    </td>
+                }
+
+                <td>
+                    @item.tarea_id
+
+                </td>
+                <td>
+                    @item.fecha_inicio
+                </td>
+                <td>
+                    @item.fecha_termino
+                </td>
+                <td>
+                    @item.responsable
+                </td>
+                <td>
+                    @item.descripcion
+                </td>
+
+                @if (item.estado == 1)
+                {
+
+                    <td>
+
+                        @Html.ActionLink("Crear Hito", "CrearHito", new { tarea = item.tarea_id })
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+                @if ((item.estado == 1))
+                {
+
+                    <td>
+                        <input value="Rechazar" class="btn btn-primary btn-xs" onclick="return RechazarTarea(@item.tarea_id);" />
+                    </td>
+                }
+                else
+                {
+
+                    <td></td>
+                }
+
+                @if ((item.estado == 1))
+                {
+                    <td>
+
+
+                        @Html.ActionLink("Editar Tarea", "FinalizarTarea", new { tarea = item.tarea_id }, new { @class = "btn btn-primary btn-xs" })
+
+
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+            </tr>
+
+
+
+
+        }
+    </tbody>
+</table>

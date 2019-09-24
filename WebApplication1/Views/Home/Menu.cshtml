@@ -1,37 +1,45 @@
-﻿nicolas hernandez <nicolas.hernandezsalazar@gmail.com>
-    22:15 (hace 1 minuto)
-    para mí
-
+﻿
     @if (ViewBag.tiene_menu == 1)
     {
-                      <ul class="nav navbar-nav">
-                          <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+<ul class="nav navbar-nav">
+    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
 
 
-                          <li class="dropdown open">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Administracion <span class="caret"></span></a>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Administracion <span class="caret"></span></a>
 
-                              <ul class="dropdown-menu">
-                                  <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
+        <ul class="dropdown-menu">
+            <li>@Html.ActionLink("Roles", "Index", "Roles")</li>
 
-                                  <li>@Html.ActionLink("Persona", "Index", "EMPLEADOS")</li>
-                                  <li>@Html.ActionLink("Areas", "Index", "AREAS")</li>
-                              </ul>
+            <li>@Html.ActionLink("Persona", "Index", "EMPLEADOS")</li>
+            <li>@Html.ActionLink("Areas", "Index", "AREAS")</li>
+        </ul>
 
-                          </li>
+    </li>
 
-                          <li class="dropdown open">
-                              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Administracion <span class="caret"></span></a>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Tareas <span class="caret"></span></a>
 
-                              <ul class="dropdown-menu">
-                                  <li>@Html.ActionLink("Tareas", "Create", "TAREAS")</li>
-
-
-                          
-                              </ul>
+        <ul class="dropdown-menu">
+            <li>@Html.ActionLink("Tareas", "Create", "TAREAS")</li>
+            <li>@Html.ActionLink("Listado Tareas", "Index", "TAREAS")</li>
 
 
-                      </ul>
+
+        </ul>
+
+    </li>
+
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Procesos <span class="caret"></span></a>
+
+        <ul class="dropdown-menu">
+        </ul>
+
+    </li>
+
+</ul>
     }
 
 

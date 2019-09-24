@@ -6,20 +6,24 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ca05e4ef22734571a730fdce6b847c54" Name="Diagram1">
         <EntityTypeShape EntityType="Model.AREA" Width="1.5" PointX="5.25" PointY="3.25" />
+        <EntityTypeShape EntityType="Model.CARGO" Width="1.5" PointX="0.75" PointY="7" />
         <EntityTypeShape EntityType="Model.CLIENTE" Width="1.5" PointX="3" PointY="3.25" />
-        <EntityTypeShape EntityType="Model.COMUNA" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.COMUNA" Width="1.5" PointX="5.25" PointY="6.25" />
+        <EntityTypeShape EntityType="Model.DOCUMENTO" Width="1.5" PointX="2.75" PointY="9" />
+        <EntityTypeShape EntityType="Model.DOCUMENTO_USUARIO" Width="1.5" PointX="4.75" PointY="9" />
         <EntityTypeShape EntityType="Model.EMPLEADOS" Width="1.5" PointX="7.5" PointY="2.375" />
-        <EntityTypeShape EntityType="Model.ESTADO_TAREA" Width="1.5" PointX="0.75" PointY="7.125" />
-        <EntityTypeShape EntityType="Model.HISTORIA_TAREAS" Width="1.5" PointX="2.75" PointY="9.125" />
-        <EntityTypeShape EntityType="Model.PROVINCIA" Width="1.5" PointX="4.75" PointY="9.125" />
-        <EntityTypeShape EntityType="Model.REGION" Width="1.5" PointX="6.75" PointY="10.125" />
+        <EntityTypeShape EntityType="Model.ESTADO_TAREA" Width="1.5" PointX="9.75" PointY="7" />
+        <EntityTypeShape EntityType="Model.HISTORIA_TAREAS" Width="1.5" PointX="6.75" PointY="11" />
+        <EntityTypeShape EntityType="Model.PROCESO" Width="1.5" PointX="9.75" PointY="10" />
+        <EntityTypeShape EntityType="Model.PROVINCIA" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="Model.REGION" Width="1.5" PointX="2.75" PointY="12" />
         <EntityTypeShape EntityType="Model.ROL_USUARIO" Width="1.5" PointX="9.75" PointY="3.375" />
-        <EntityTypeShape EntityType="Model.ROLES" Width="1.5" PointX="7.5" PointY="7.5" />
+        <EntityTypeShape EntityType="Model.ROLES" Width="1.5" PointX="7.5" PointY="8.5" />
         <EntityTypeShape EntityType="Model.RUBROS" Width="1.5" PointX="0.75" PointY="3.5" />
-        <EntityTypeShape EntityType="Model.TAREA_ASIGNADA" Width="1.5" PointX="8.75" PointY="10.125" />
-        <EntityTypeShape EntityType="Model.TAREA_HITO" Width="1.5" PointX="0.75" PointY="11.125" />
-        <EntityTypeShape EntityType="Model.TAREAS" Width="1.5" PointX="9.75" PointY="6.125" />
-        <EntityTypeShape EntityType="Model.USUARIOS" Width="1.5" PointX="5.25" PointY="6.25" />
+        <EntityTypeShape EntityType="Model.TAREA_ASIGNADA" Width="1.5" PointX="11.75" PointY="2" />
+        <EntityTypeShape EntityType="Model.TAREA_HITO" Width="1.5" PointX="11.75" PointY="5" />
+        <EntityTypeShape EntityType="Model.TAREAS" Width="1.5" PointX="4.75" PointY="13" />
+        <EntityTypeShape EntityType="Model.USUARIOS" Width="1.5" PointX="5.25" PointY="0.75" />
         <AssociationConnector Association="Model.AREA_FK1" />
         <AssociationConnector Association="Model.EMPLEADOS_FK3" />
         <AssociationConnector Association="Model.CLIENTE_FK1" />
@@ -27,8 +31,6 @@
         <AssociationConnector Association="Model.EMPLEADOS_FK1" />
         <AssociationConnector Association="Model.ROL_USUARIO_FK1" />
         <AssociationConnector Association="Model.ROL_USUARIO_FK2" />
-        <EntityTypeShape EntityType="Model.DOCUMENTO" Width="1.5" PointX="3.375" PointY="11.75" />
-        <EntityTypeShape EntityType="Model.DOCUMENTO_USUARIO" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

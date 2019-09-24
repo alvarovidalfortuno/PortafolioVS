@@ -23,5 +23,6 @@ namespace WebApplication1.Models
         public Nullable<decimal> DIAS_TOTAL { get; set; }
         public Nullable<decimal> ID_USUARIO { get; set; }
         public Nullable<decimal> ID_CLIENTE { get; set; }
+        public Nullable<decimal> ID_ESTADO { get; set; }
     }
 }

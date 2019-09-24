@@ -17,6 +17,12 @@ namespace WebApplication1.Controllers
         // GET: AREAs
         public ActionResult Index()
         {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
             var aREA = db.AREA.Include(a => a.CLIENTE);
             return View(aREA.ToList());
         }
@@ -26,6 +32,12 @@ namespace WebApplication1.Controllers
         // GET: AREAs/Create
         public ActionResult Create()
         {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
             ViewBag.ID_CLIENTE = new SelectList(db.CLIENTE, "ID_CLIENTE", "NOMBRE_CLIENTE");
             return View();
         }

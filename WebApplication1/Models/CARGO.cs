@@ -12,14 +12,10 @@ namespace WebApplication1.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TAREA_HITO
+    public partial class CARGO
     {
-        public decimal ID_HITO { get; set; }
-        public Nullable<decimal> ID_TAREA { get; set; }
-        public Nullable<decimal> ID_HISTORIAL { get; set; }
-        public Nullable<decimal> ID_ESTADO { get; set; }
-        public Nullable<System.DateTime> FECHA_INICIO { get; set; }
-        public Nullable<System.DateTime> FECHA_TERMINO { get; set; }
-        public string DESC_HITO { get; set; }
+        public decimal ID_CARGO { get; set; }
+        public string NOMBRE_CARGO { get; set; }
+        public string DESC_CARGO { get; set; }
     }
 }

@@ -1,0 +1,170 @@
+﻿<div class="ibox-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins" style="height: 650px; overflow-y: auto;">
+                <div class="ibox-title">
+                    <h5>Asignar Tarea</h5>
+                </div>
+                <div class="ibox-content">
+
+
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="nombre"> Tarea</label>
+                            <div class="col-md-10">
+                                <input class="form-control" id="tarea" required name="tarea" type="text" value="@ViewBag.tarea" readonly>
+
+                                <input type="hidden" value="@ViewBag.tarea" id="hidden">
+                                <input type="hidden" value="@ViewBag.responsable" id="hidden2">
+
+
+                                
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="nombre">Area</label>
+                            <div class="col-md-10">
+                                <select id="area" name="area" class="form-control" required style="margin-left:0"  onchange="ddListChange()">
+                                    <option value="">SELECCIONE</option>
+                                    @foreach (var item in ViewBag.area)
+                                    {
+                                        <option value="@item.ID_AREA">@item.NOMBRE_AREA</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+ 
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Responsable</label>
+                            <div class="col-md-10">
+                                <div id="responsableVistaParcial">
+                                    <select id="responsable" class="form-control" style="width:100%">
+                                        <option value="">SELECCIONE</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group" id="caja_botones">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input value="Crear" class="btn btn-primary"  onclick="return Ingreso();" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+<link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+
+    function Ingreso() {
+        //VALIDA MAIL
+
+        if ($("#responsable").val() == "") {
+
+            swal({
+                title: "Debe ingresar Responsable.",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#responsable").attr("required", true);
+
+            if (!$.trim($("#responsable").val())) { $("#responsable").css('border', '1px solid red') } else { $("#responsable").css('border', '1px solid green') }
+            return false;
+        }
+       
+
+        swal({
+            title: "¿ Desea Asignar Tarea ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false
+        }, function (isConfirm) {
+            if (isConfirm)
+            {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("IngresoResponsable")',
+                    data: {
+                        responsable: $("#responsable").val(),
+                        tarea: $("#hidden").val(),
+                        asignador: $("#hidden2").val()
+
+                    },
+
+                }).done(function (data) {
+
+                    if (data.Result == "OK") {
+
+                        swal({
+                            title: "Responsable Asignado: ",
+
+                            text: "Tarea Asignada Satisfactoriamente",
+
+                            type: "success"
+                        }, function () {
+                            window.location.href = '/TAREAS/Index/'
+
+                        });
+
+                    }
+
+                    else if (data.Result == "ERROR") {
+                        swal({
+                            title: "Error ",
+                            text: "Transacción no realizada",
+                        }
+
+                            , function () {
+                                // location.reload();
+                            });
+                    }
+
+                }).fail(function () {
+
+                    alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+                });
+            }
+        });
+    }
+
+
+
+    function ddListChange() {
+
+        $.ajax({
+            type: "POST",
+            url: '/TAREAS/_DesplegableResposanble',
+            data: {
+                area: $("#area").val()
+            },
+            success: function (data) {
+
+                $("#responsableVistaParcial").html(data);
+
+            }
+        }).fail(function () {
+            alert("Ups, algo malo ocurre, favor intémtalo mas tarde!.");
+        })
+
+    }
+    </script>

@@ -28,11 +28,15 @@ namespace WebApplication1.Models
         }
     
         public virtual DbSet<AREA> AREA { get; set; }
+        public virtual DbSet<CARGO> CARGO { get; set; }
         public virtual DbSet<CLIENTE> CLIENTE { get; set; }
         public virtual DbSet<COMUNA> COMUNA { get; set; }
+        public virtual DbSet<DOCUMENTO> DOCUMENTO { get; set; }
+        public virtual DbSet<DOCUMENTO_USUARIO> DOCUMENTO_USUARIO { get; set; }
         public virtual DbSet<EMPLEADOS> EMPLEADOS { get; set; }
         public virtual DbSet<ESTADO_TAREA> ESTADO_TAREA { get; set; }
         public virtual DbSet<HISTORIA_TAREAS> HISTORIA_TAREAS { get; set; }
+        public virtual DbSet<PROCESO> PROCESO { get; set; }
         public virtual DbSet<PROVINCIA> PROVINCIA { get; set; }
         public virtual DbSet<REGION> REGION { get; set; }
         public virtual DbSet<ROL_USUARIO> ROL_USUARIO { get; set; }
@@ -42,8 +46,6 @@ namespace WebApplication1.Models
         public virtual DbSet<TAREA_HITO> TAREA_HITO { get; set; }
         public virtual DbSet<TAREAS> TAREAS { get; set; }
         public virtual DbSet<USUARIOS> USUARIOS { get; set; }
-        public virtual DbSet<DOCUMENTO> DOCUMENTO { get; set; }
-        public virtual DbSet<DOCUMENTO_USUARIO> DOCUMENTO_USUARIO { get; set; }
     
         public virtual int INSERTAR_AREA(Nullable<decimal> iD_A, string nOMBRE_A, string dESC_A, Nullable<decimal> iD_CLIENTE)
         {

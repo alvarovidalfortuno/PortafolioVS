@@ -1,0 +1,171 @@
+﻿
+@model WebApplication1.Models.TAREA_HITO
+
+@{
+    ViewBag.Title = "Create";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h1>CREAR HITO</h1>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2" for="Rut">Tarea</label>
+
+                <input class="form-control" id="tarea" required name="tarea" type="text" value="@ViewBag.tarea" readonly>
+
+                <input type="hidden" value="@ViewBag.tarea" id="hidden">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2" for="Rut">Area</label>
+
+                <select id="area" name="area" class="form-control" required style="margin-left:0" onchange="ddListChange()">
+                    <option value="">SELECCIONE</option>
+                    @foreach (var item in ViewBag.area)
+                    {
+                        <option value="@item.ID_AREA">@item.NOMBRE_AREA</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+
+            <div id="responsableVistaParcial">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Responsable</label>
+                    <div class="col-md-10">
+
+                        <select id="responsable" class="form-control" style="width:200px">
+                            <option value="">SELECCIONE</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2" for="Rut">Descripcion Hito</label>
+
+                <input class="form-control" id="descripcion" required name="descripcion" type="text" value="">
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Crear" class="btn btn-primary" onclick="return Ingreso();" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+<link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+
+<script type="text/javascript">
+
+
+    function ddListChange() {
+
+        $.ajax({
+            type: "POST",
+            url: '/TAREAS/_DesplegableResposanble',
+            data: {
+                area: $("#area").val()
+            },
+            success: function (data) {
+
+                $("#responsableVistaParcial").html(data);
+
+            }
+        }).fail(function () {
+            alert("Ups, algo malo ocurre, favor intémtalo mas tarde!.");
+        })
+
+    }
+
+    function Ingreso() {
+        //VALIDA MAIL
+        if ($("#responsable").val() == "") {
+
+            swal({
+                title: "Debe ingresar Responsable.",
+                type: "warning",
+                confirmButtonColor: "#DD6B55",
+                closeOnConfirm: false
+            });
+
+            $("#responsable").attr("required", true);
+
+            if (!$.trim($("#responsable").val())) { $("#responsable").css('border', '1px solid red') } else { $("#responsable").css('border', '1px solid green') }
+            return false;
+        }
+        swal({
+            title: "¿ Desea Asignar Hito ?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Continuar",
+            cancelButtonText: "Cancelar",
+            closeOnConfirm: false
+        }, function () {
+
+            $.ajax({
+                type: "POST",
+                url: "CrearHito",
+
+                data: {
+                    responsable: $("#responsable").val(),
+                    tarea: $("#hidden").val(),
+                    descripcion: $("#descripcion").val()
+                },
+
+            }).done(function (data) {
+
+                if (data.Result == "OK") {
+
+                    swal({
+                        title: "Responsable Asignado: ",
+
+                        text: "Hito Creado",
+
+                        type: "success"
+                    }, function () {
+                        window.location.href = '/TAREAS/Index/'
+
+                    });
+
+                }
+
+                else if (data.Result == "ERROR") {
+                    swal({
+                        title: "Error ",
+                        text: "Transacción no realizada",
+                    }
+
+                        , function () {
+                            // location.reload();
+                        });
+                }
+
+            }).fail(function () {
+
+                alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+            })
+        });
+    }
+
+</script>

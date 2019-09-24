@@ -179,6 +179,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AREAsController.cs" />
     <Compile Include="Controllers\CerrarSesionController.cs" />
+    <Compile Include="Controllers\CorreoController.cs" />
     <Compile Include="Controllers\EMPLEADOSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -189,6 +190,9 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AREA.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CARGO.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CLIENTE.cs">
@@ -229,6 +233,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\PROCESO.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PROVINCIA.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -260,6 +267,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Awesome\awesome.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -375,10 +383,18 @@
     <Content Include="Views\Home\Menu.cshtml" />
     <Content Include="Views\TAREAS\Create.cshtml" />
     <Content Include="Views\TAREAS\Index.cshtml" />
+    <Content Include="Views\TAREAS\AsignarTarea.cshtml" />
+    <Content Include="Views\TAREAS\_DesplegableResposanble.cshtml" />
+    <Content Include="Views\TAREAS\CrearHito.cshtml" />
+    <Content Include="Views\TAREAS\FinalizarTarea.cshtml" />
+    <Content Include="Views\TAREAS\_ListadoHitos.cshtml" />
+    <Content Include="Views\TAREAS\Tab1.cshtml" />
+    <Content Include="Views\TAREAS\Tab2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\CerrarSesion\" />
+    <Folder Include="Views\Correo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

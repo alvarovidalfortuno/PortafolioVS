@@ -17,12 +17,23 @@ namespace WebApplication1.Controllers
         // GET: EMPLEADOS
         public ActionResult Index()
         {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
             var eMPLEADOS = db.EMPLEADOS.Include(e => e.COMUNA).Include(e => e.USUARIOS);
             return View(eMPLEADOS.ToList());
         }
 
         public ActionResult Crear2()
         {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
 
             var rol = db.ROLES.ToList();
             ViewBag.rol = rol;
@@ -185,6 +196,9 @@ namespace WebApplication1.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID_EMPLEADO,SNOMBRE_EMPLEADO,PAPELLIDO_EMPLEADO,SAPELLIDO_EMPLEADO,EDAD_EMPLEADO,RUN_EMPLEADO,DV_EMPLEADO,DIRECCION,ID_COMUNA,ID_USUARIO")] EMPLEADOS eMPLEADOS)
         {
+
+
+
             if (ModelState.IsValid)
             {
                 db.Entry(eMPLEADOS).State = EntityState.Modified;
@@ -199,6 +213,12 @@ namespace WebApplication1.Controllers
         // GET: EMPLEADOS/Delete/5
         public ActionResult Delete(decimal id)
         {
+            if (Session["usuario"] == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

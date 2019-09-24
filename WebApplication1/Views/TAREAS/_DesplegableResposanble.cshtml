@@ -1,0 +1,9 @@
+﻿<select id="responsable" class="form-control" style="width:100%">
+    <option value=" ">SELECCIONE</option>
+
+    @foreach (var item in ViewBag.empleados)
+    {
+        <option value="@item.ID_EMPLEADO">@item.SNOMBRE_EMPLEADO    </option>
+
+    }
+</select>

@@ -14,6 +14,14 @@
           <Property Name="DESC_AREA" Type="varchar2" MaxLength="250" />
           <Property Name="ID_CLIENTE" Type="number" Precision="38" Scale="0" />
         </EntityType>
+        <EntityType Name="CARGO">
+          <Key>
+            <PropertyRef Name="ID_CARGO" />
+          </Key>
+          <Property Name="ID_CARGO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_CARGO" Type="varchar2" MaxLength="50" />
+          <Property Name="DESC_CARGO" Type="varchar2" MaxLength="250" />
+        </EntityType>
         <EntityType Name="CLIENTE">
           <Key>
             <PropertyRef Name="ID_CLIENTE" />
@@ -65,6 +73,7 @@
           <Property Name="ID_COMUNA" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_AREA" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_CARGO" Type="number" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="ESTADO_TAREA">
           <Key>
@@ -78,6 +87,15 @@
             <PropertyRef Name="HISTORIAL_TAREA" />
           </Key>
           <Property Name="HISTORIAL_TAREA" Type="number" Precision="38" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PROCESO">
+          <Key>
+            <PropertyRef Name="ID_PROCESO" />
+          </Key>
+          <Property Name="ID_PROCESO" Type="number" Precision="38" Scale="0" Nullable="false" />
+          <Property Name="NOMBRE_PROCESO" Type="varchar2" MaxLength="50" />
+          <Property Name="ESTADO_ID" Type="number" Precision="38" Scale="0" />
+          <Property Name="DESCRIPCION_PROCESO" Type="varchar2" MaxLength="255" />
         </EntityType>
         <EntityType Name="PROVINCIA">
           <Key>
@@ -126,6 +144,7 @@
           <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_TAREA" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_ESTADO" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_ASIGNADOR" Type="number" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="TAREA_HITO">
           <Key>
@@ -134,6 +153,10 @@
           <Property Name="ID_HITO" Type="number" Precision="38" Scale="0" Nullable="false" />
           <Property Name="ID_TAREA" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_HISTORIAL" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_ESTADO" Type="number" Precision="38" Scale="0" />
+          <Property Name="FECHA_INICIO" Type="date" />
+          <Property Name="FECHA_TERMINO" Type="date" />
+          <Property Name="DESC_HITO" Type="varchar2" MaxLength="255" />
         </EntityType>
         <EntityType Name="TAREAS">
           <Key>
@@ -148,6 +171,7 @@
           <Property Name="DIAS_TOTAL" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_USUARIO" Type="number" Precision="38" Scale="0" />
           <Property Name="ID_CLIENTE" Type="number" Precision="38" Scale="0" />
+          <Property Name="ID_ESTADO" Type="number" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="USUARIOS">
           <Key>
@@ -300,6 +324,7 @@
         </Function>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AREA" EntityType="Self.AREA" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="CARGO" EntityType="Self.CARGO" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="CLIENTE" EntityType="Self.CLIENTE" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="DOCUMENTO" EntityType="Self.DOCUMENTO" Schema="BDPORTAFOLIO" store:Type="Tables" />
@@ -307,6 +332,7 @@
           <EntitySet Name="EMPLEADOS" EntityType="Self.EMPLEADOS" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="ESTADO_TAREA" EntityType="Self.ESTADO_TAREA" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="HISTORIA_TAREAS" EntityType="Self.HISTORIA_TAREAS" Schema="BDPORTAFOLIO" store:Type="Tables" />
+          <EntitySet Name="PROCESO" EntityType="Self.PROCESO" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="PROVINCIA" EntityType="Self.PROVINCIA" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="REGION" EntityType="Self.REGION" Schema="BDPORTAFOLIO" store:Type="Tables" />
           <EntitySet Name="ROL_USUARIO" EntityType="Self.ROL_USUARIO" Schema="BDPORTAFOLIO" store:Type="Tables" />
@@ -408,11 +434,15 @@
           <Parameter Name="ID_D" Mode="In" Type="Decimal" />
           </FunctionImport>
           <EntitySet Name="AREA" EntityType="Model.AREA" />
+          <EntitySet Name="CARGO" EntityType="Model.CARGO" />
           <EntitySet Name="CLIENTE" EntityType="Model.CLIENTE" />
           <EntitySet Name="COMUNA" EntityType="Model.COMUNA" />
+          <EntitySet Name="DOCUMENTO" EntityType="Model.DOCUMENTO" />
+          <EntitySet Name="DOCUMENTO_USUARIO" EntityType="Model.DOCUMENTO_USUARIO" />
           <EntitySet Name="EMPLEADOS" EntityType="Model.EMPLEADOS" />
           <EntitySet Name="ESTADO_TAREA" EntityType="Model.ESTADO_TAREA" />
           <EntitySet Name="HISTORIA_TAREAS" EntityType="Model.HISTORIA_TAREAS" />
+          <EntitySet Name="PROCESO" EntityType="Model.PROCESO" />
           <EntitySet Name="PROVINCIA" EntityType="Model.PROVINCIA" />
           <EntitySet Name="REGION" EntityType="Model.REGION" />
           <EntitySet Name="ROL_USUARIO" EntityType="Model.ROL_USUARIO" />
@@ -450,8 +480,6 @@
             <End Role="ROLES" EntitySet="ROLES" />
             <End Role="ROL_USUARIO" EntitySet="ROL_USUARIO" />
           </AssociationSet>
-          <EntitySet Name="DOCUMENTO" EntityType="Model.DOCUMENTO" />
-          <EntitySet Name="DOCUMENTO_USUARIO" EntityType="Model.DOCUMENTO_USUARIO" />
           </EntityContainer>
         <EntityType Name="AREA">
           <Key>
@@ -463,6 +491,14 @@
           <Property Name="ID_CLIENTE" Type="Decimal" Precision="38" Scale="0" />
           <NavigationProperty Name="CLIENTE" Relationship="Model.AREA_FK1" FromRole="AREA" ToRole="CLIENTE" />
           <NavigationProperty Name="EMPLEADOS" Relationship="Model.EMPLEADOS_FK3" FromRole="AREA" ToRole="EMPLEADOS" />
+        </EntityType>
+        <EntityType Name="CARGO">
+          <Key>
+            <PropertyRef Name="ID_CARGO" />
+          </Key>
+          <Property Name="ID_CARGO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_CARGO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESC_CARGO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="CLIENTE">
           <Key>
@@ -484,6 +520,25 @@
           <Property Name="ID_PROVINCIA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
           <NavigationProperty Name="EMPLEADOS" Relationship="Model.EMPLEADOS_FK2" FromRole="COMUNA" ToRole="EMPLEADOS" />
         </EntityType>
+        <EntityType Name="DOCUMENTO">
+          <Key>
+            <PropertyRef Name="ID_DOCUMENTO" />
+          </Key>
+          <Property Name="ID_DOCUMENTO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_DOCUMENTO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="GUID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="TIPO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="FECHA_CREACION" Type="DateTime" />
+        </EntityType>
+        <EntityType Name="DOCUMENTO_USUARIO">
+          <Key>
+            <PropertyRef Name="ID_DOCUMENTO_USUARIO" />
+          </Key>
+          <Property Name="ID_DOCUMENTO_USUARIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="ID_DOCUMENTO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="FECHA_CREACION" Type="DateTime" />
+        </EntityType>
         <EntityType Name="EMPLEADOS">
           <Key>
             <PropertyRef Name="ID_EMPLEADO" />
@@ -499,6 +554,7 @@
           <Property Name="ID_COMUNA" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_AREA" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_CARGO" Type="Decimal" Precision="38" Scale="0" />
           <NavigationProperty Name="AREA" Relationship="Model.EMPLEADOS_FK3" FromRole="EMPLEADOS" ToRole="AREA" />
           <NavigationProperty Name="COMUNA" Relationship="Model.EMPLEADOS_FK2" FromRole="EMPLEADOS" ToRole="COMUNA" />
           <NavigationProperty Name="USUARIOS" Relationship="Model.EMPLEADOS_FK1" FromRole="EMPLEADOS" ToRole="USUARIOS" />
@@ -516,6 +572,15 @@
             <PropertyRef Name="HISTORIAL_TAREA" />
           </Key>
           <Property Name="HISTORIAL_TAREA" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+        </EntityType>
+        <EntityType Name="PROCESO">
+          <Key>
+            <PropertyRef Name="ID_PROCESO" />
+          </Key>
+          <Property Name="ID_PROCESO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
+          <Property Name="NOMBRE_PROCESO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ESTADO_ID" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="DESCRIPCION_PROCESO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="PROVINCIA">
           <Key>
@@ -568,6 +633,7 @@
           <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_TAREA" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_ESTADO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_ASIGNADOR" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="TAREA_HITO">
           <Key>
@@ -576,6 +642,10 @@
           <Property Name="ID_HITO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
           <Property Name="ID_TAREA" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_HISTORIAL" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_ESTADO" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="FECHA_INICIO" Type="DateTime" />
+          <Property Name="FECHA_TERMINO" Type="DateTime" />
+          <Property Name="DESC_HITO" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TAREAS">
           <Key>
@@ -590,6 +660,7 @@
           <Property Name="DIAS_TOTAL" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
           <Property Name="ID_CLIENTE" Type="Decimal" Precision="38" Scale="0" />
+          <Property Name="ID_ESTADO" Type="Decimal" Precision="38" Scale="0" />
         </EntityType>
         <EntityType Name="USUARIOS">
           <Key>
@@ -684,25 +755,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="DOCUMENTO">
-          <Key>
-            <PropertyRef Name="ID_DOCUMENTO" />
-          </Key>
-          <Property Name="ID_DOCUMENTO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="NOMBRE_DOCUMENTO" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="GUID" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="TIPO" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="FECHA_CREACION" Type="DateTime" />
-        </EntityType>
-        <EntityType Name="DOCUMENTO_USUARIO">
-          <Key>
-            <PropertyRef Name="ID_DOCUMENTO_USUARIO" />
-          </Key>
-          <Property Name="ID_DOCUMENTO_USUARIO" Type="Decimal" Nullable="false" Precision="38" Scale="0" />
-          <Property Name="ID_DOCUMENTO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="ID_USUARIO" Type="Decimal" Precision="38" Scale="0" />
-          <Property Name="FECHA_CREACION" Type="DateTime" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -729,6 +781,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CARGO">
+            <EntityTypeMapping TypeName="Model.CARGO">
+              <MappingFragment StoreEntitySet="CARGO">
+                <ScalarProperty Name="DESC_CARGO" ColumnName="DESC_CARGO" />
+                <ScalarProperty Name="NOMBRE_CARGO" ColumnName="NOMBRE_CARGO" />
+                <ScalarProperty Name="ID_CARGO" ColumnName="ID_CARGO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CLIENTE">
             <EntityTypeMapping TypeName="Model.CLIENTE">
               <MappingFragment StoreEntitySet="CLIENTE">
@@ -748,9 +809,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DOCUMENTO">
+            <EntityTypeMapping TypeName="Model.DOCUMENTO">
+              <MappingFragment StoreEntitySet="DOCUMENTO">
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
+                <ScalarProperty Name="GUID" ColumnName="GUID" />
+                <ScalarProperty Name="NOMBRE_DOCUMENTO" ColumnName="NOMBRE_DOCUMENTO" />
+                <ScalarProperty Name="ID_DOCUMENTO" ColumnName="ID_DOCUMENTO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DOCUMENTO_USUARIO">
+            <EntityTypeMapping TypeName="Model.DOCUMENTO_USUARIO">
+              <MappingFragment StoreEntitySet="DOCUMENTO_USUARIO">
+                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
+                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
+                <ScalarProperty Name="ID_DOCUMENTO" ColumnName="ID_DOCUMENTO" />
+                <ScalarProperty Name="ID_DOCUMENTO_USUARIO" ColumnName="ID_DOCUMENTO_USUARIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="EMPLEADOS">
             <EntityTypeMapping TypeName="Model.EMPLEADOS">
               <MappingFragment StoreEntitySet="EMPLEADOS">
+                <ScalarProperty Name="ID_CARGO" ColumnName="ID_CARGO" />
                 <ScalarProperty Name="ID_AREA" ColumnName="ID_AREA" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="ID_COMUNA" ColumnName="ID_COMUNA" />
@@ -777,6 +860,16 @@
             <EntityTypeMapping TypeName="Model.HISTORIA_TAREAS">
               <MappingFragment StoreEntitySet="HISTORIA_TAREAS">
                 <ScalarProperty Name="HISTORIAL_TAREA" ColumnName="HISTORIAL_TAREA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PROCESO">
+            <EntityTypeMapping TypeName="Model.PROCESO">
+              <MappingFragment StoreEntitySet="PROCESO">
+                <ScalarProperty Name="DESCRIPCION_PROCESO" ColumnName="DESCRIPCION_PROCESO" />
+                <ScalarProperty Name="ESTADO_ID" ColumnName="ESTADO_ID" />
+                <ScalarProperty Name="NOMBRE_PROCESO" ColumnName="NOMBRE_PROCESO" />
+                <ScalarProperty Name="ID_PROCESO" ColumnName="ID_PROCESO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -827,6 +920,7 @@
           <EntitySetMapping Name="TAREA_ASIGNADA">
             <EntityTypeMapping TypeName="Model.TAREA_ASIGNADA">
               <MappingFragment StoreEntitySet="TAREA_ASIGNADA">
+                <ScalarProperty Name="ID_ASIGNADOR" ColumnName="ID_ASIGNADOR" />
                 <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
                 <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
@@ -837,6 +931,10 @@
           <EntitySetMapping Name="TAREA_HITO">
             <EntityTypeMapping TypeName="Model.TAREA_HITO">
               <MappingFragment StoreEntitySet="TAREA_HITO">
+                <ScalarProperty Name="DESC_HITO" ColumnName="DESC_HITO" />
+                <ScalarProperty Name="FECHA_TERMINO" ColumnName="FECHA_TERMINO" />
+                <ScalarProperty Name="FECHA_INICIO" ColumnName="FECHA_INICIO" />
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
                 <ScalarProperty Name="ID_HISTORIAL" ColumnName="ID_HISTORIAL" />
                 <ScalarProperty Name="ID_TAREA" ColumnName="ID_TAREA" />
                 <ScalarProperty Name="ID_HITO" ColumnName="ID_HITO" />
@@ -846,6 +944,7 @@
           <EntitySetMapping Name="TAREAS">
             <EntityTypeMapping TypeName="Model.TAREAS">
               <MappingFragment StoreEntitySet="TAREAS">
+                <ScalarProperty Name="ID_ESTADO" ColumnName="ID_ESTADO" />
                 <ScalarProperty Name="ID_CLIENTE" ColumnName="ID_CLIENTE" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
                 <ScalarProperty Name="DIAS_TOTAL" ColumnName="DIAS_TOTAL" />
@@ -864,27 +963,6 @@
                 <ScalarProperty Name="CONTRASEÑA_USUARIO" ColumnName="CONTRASEÑA_USUARIO" />
                 <ScalarProperty Name="CORREO_USUARIO" ColumnName="CORREO_USUARIO" />
                 <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DOCUMENTO">
-            <EntityTypeMapping TypeName="Model.DOCUMENTO">
-              <MappingFragment StoreEntitySet="DOCUMENTO">
-                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
-                <ScalarProperty Name="TIPO" ColumnName="TIPO" />
-                <ScalarProperty Name="GUID" ColumnName="GUID" />
-                <ScalarProperty Name="NOMBRE_DOCUMENTO" ColumnName="NOMBRE_DOCUMENTO" />
-                <ScalarProperty Name="ID_DOCUMENTO" ColumnName="ID_DOCUMENTO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DOCUMENTO_USUARIO">
-            <EntityTypeMapping TypeName="Model.DOCUMENTO_USUARIO">
-              <MappingFragment StoreEntitySet="DOCUMENTO_USUARIO">
-                <ScalarProperty Name="FECHA_CREACION" ColumnName="FECHA_CREACION" />
-                <ScalarProperty Name="ID_USUARIO" ColumnName="ID_USUARIO" />
-                <ScalarProperty Name="ID_DOCUMENTO" ColumnName="ID_DOCUMENTO" />
-                <ScalarProperty Name="ID_DOCUMENTO_USUARIO" ColumnName="ID_DOCUMENTO_USUARIO" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

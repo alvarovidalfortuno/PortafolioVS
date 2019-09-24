@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<WebApplication1.Models.TAREAS>
-@{
-    ViewBag.Title = "Index";
-}
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
@@ -14,72 +11,27 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-
-                    <table class="table table-striped" id="table">
-                        <tr>
-                            <th>
-                                Tarea
-                            </th>
-                            <th>
-                                fecha Creacion
-                            </th>
-                            <th>
-                                Nombre Tarea
-                            </th>
-                            <th>
-                                Descripción Tarea
-                            </th>
-                            <th></th>
-                        </tr>
-
-
-                        @*@foreach (var item in )
-                        {*@
-                            <tr>
-                                <td>
-                                   
-                                </td>
-                                <td>
-                                   
-                                </td>
-                                <td>
-
-                                  
-
-                                </td>
-
-                                <td>
-
-                                  
-
-                                </td>
-
-                                <td>
-
-                                    @*@Html.ActionLink("Detalle", "Details", new { id = item.id }, new { @class = "btn btn-primary btn-sm" })
-                                        @Html.ActionLink("Editar", "Edit", new { id = item.id }, new { @class = "btn btn-white btn-sm" })
-                                        @Html.ActionLink("Eliminar", "Delete", new { id = item.id }, new { @class = "btn btn-white btn-sm" })*@
-
-                                </td>
-
-                            </tr>
-                        @*}*@
-
-                    </table>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a onclick="tab1()" data-toggle="tab">ASIGNADOS</a></li>
+                        <li ><a onclick="tab2()" data-toggle="tab">PENDIENTES</a></li>
+                    </ul>
+                    <div class="tab-content" id="tabs">
+                        <div class="tab-pane active" id="aaa">@Html.Action("Tab1")</div>
+                        <div class="tab-pane " id="bbb"></div>
+                    </div>
 
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-@section Styles {
+<script src="../Scripts/jquery-3.3.1.min.js"></script>@section Styles {
     <link href="~/Content/Datatable/datatables.min.css" rel="stylesheet" />
-    @*<link href="~/Content/Datatable/buttons.dataTables.css" rel="stylesheet" />*@
-    @*<link href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />*@
-
+    <link href="~/Content/Awesome/awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
 
 }
+
 @section Scripts {
     <script src="~/Scripts/Datatable/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/Datatable/dataTables.buttons.min.js"></script>
@@ -89,18 +41,72 @@
     <script src="~/Scripts/Datatable/pdf2.js"></script>
     <script src="~/Scripts/Datatable/html5.min.js"></script>
     <script src="~/Scripts/Datatable/print.min.js"></script>
-
+    <script src="~/Scripts/SweetAlert/sweetalert.js"></script>
 
     <script src="~/Scripts/Datatable/datatables.min.js"></script>
-
-    @*<script src="~/Scripts/Datatable/dataTables.buttons.min.js"></script>*@
-    @*<script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
 
 
     <script type="text/javascript">
 
+        function RechazarTarea(tarea) {
+
+            alert(tarea);
+            swal({
+                title: "¿ Desea Rechazar Tarea ?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Continuar",
+                cancelButtonText: "Cancelar",
+                closeOnConfirm: false
+            }, function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: "TAREAS/RechazarTarea",
+
+                    data: {
+                        tarea: tarea
+                    },
+
+                }).done(function (data) {
+
+                    if (data.Result == "OK") {
+
+                        swal({
+                            title: "Transaccion generada con exito.",
+
+                            text: "Tarea Rechazada.",
+
+                            type: "success"
+                        }, function () {
+                            window.location.href = '/TAREAS/Index/'
+
+                        });
+
+                    }
+
+                    else if (data.Result == "ERROR") {
+                        swal({
+                            title: "Error ",
+                            text: "Transacción no realizada",
+                        }
+
+                            , function () {
+                                // location.reload();
+                            });
+                    }
+
+                }).fail(function () {
+
+                    alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+                })
+            });
+        }
+
         $(document).ready(function () {
-            $('#table').DataTable({
+
+            var table = $('#table').DataTable({
 
                 dom: 'Bfrtip',
                 buttons: [
@@ -108,7 +114,243 @@
                 ]
             });
 
+            $('#table').on('click', 'td.detalle-reporte-tareas', function () {
+                //id del requerimiento
+                var id_t = $(this).attr("id");
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                    $("#Reqflecha_roja" + id_t).hide();
+                    $("#Reqflecha_azul" + id_t).show();
+
+                }
+                else {
+                    // Open this row
+                    TareasRequerimiento(row, id_t, tr);
+                    $("#Reqflecha_azul" + id_t).hide();
+                    $("#Reqflecha_roja" + id_t).show();
+                }
+            });
+
+            function TareasRequerimiento(row, id_t, tr) {
+
+                var tareaId = id_t;
+
+                $.ajax({
+                    url: "/TAREAS/_ListadoHitos",
+                    data: {
+                        tareaId: tareaId
+
+                    },
+                    type: "GET",
+                    success: function (fooBarHTML) {
+
+
+
+                        row.child(fooBarHTML).show();
+                        tr.addClass('shown');
+
+                        //var orden = $("#hiddenOrden").val();
+                        //var limpiar = orden.replace("{", "");
+                        //var limpiar2 = limpiar.replace("}", "")
+                        //var orden = limpiar2;
+                        //var str = orden.split("orden =");
+                        //var ordenFinal = str[1];
+
+
+
+
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        //...
+                    }
+                });
+
+
+            }
+
         });
+
+        function tab1() {
+            $.ajax({
+                url: '@Url.Action("Tab1")',
+                type: "POST",
+                success: function (vista) {
+                    $('#aaa').empty();
+                    $('#bbb').empty();
+                    $('#aaa').html(vista);
+
+                    var table = $('#table').DataTable({
+
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf'
+                        ]
+                    });
+
+                    $('#table').on('click', 'td.detalle-reporte-tareas', function () {
+                        //id del requerimiento
+                        var id_t = $(this).attr("id");
+                        var tr = $(this).closest('tr');
+                        var row = table.row(tr);
+
+                        if (row.child.isShown()) {
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                            $("#Reqflecha_roja" + id_t).hide();
+                            $("#Reqflecha_azul" + id_t).show();
+
+                        }
+                        else {
+                            // Open this row
+                            TareasRequerimiento(row, id_t, tr);
+                            $("#Reqflecha_azul" + id_t).hide();
+                            $("#Reqflecha_roja" + id_t).show();
+                        }
+                    });
+
+                    function TareasRequerimiento(row, id_t, tr) {
+
+                        var tareaId = id_t;
+
+                        $.ajax({
+                            url: "/TAREAS/_ListadoHitos",
+                            data: {
+                                tareaId: tareaId
+
+                            },
+                            type: "GET",
+                            success: function (fooBarHTML) {
+
+
+
+                                row.child(fooBarHTML).show();
+                                tr.addClass('shown');
+
+                                //var orden = $("#hiddenOrden").val();
+                                //var limpiar = orden.replace("{", "");
+                                //var limpiar2 = limpiar.replace("}", "")
+                                //var orden = limpiar2;
+                                //var str = orden.split("orden =");
+                                //var ordenFinal = str[1];
+
+
+
+
+                            },
+                            error: function (xhr, status, errorThrown) {
+                                //...
+                            }
+                        });
+
+
+                    }
+
+                    $('#aaa').addClass("active");
+                    $('#bbb').removeClass("");
+                    $('#ccc').removeClass("");
+                },
+                error: function (xhr, status, errorThrown) {
+
+                }
+            });
+        }
+
+
+
+
+        function tab2() {
+            $.ajax({
+                url: '@Url.Action("Tab2")',
+                type: "POST",
+                success: function (vista) {
+                    $('#aaa').empty();
+                    $('#bbb').empty();
+                    $('#bbb').html(vista);
+
+                    var table = $('#table').DataTable({
+
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf'
+                        ]
+                    });
+
+                    $('#table').on('click', 'td.detalle-reporte-tareas', function () {
+                        //id del requerimiento
+                        var id_t = $(this).attr("id");
+                        var tr = $(this).closest('tr');
+                        var row = table.row(tr);
+
+                        if (row.child.isShown()) {
+                            // This row is already open - close it
+                            row.child.hide();
+                            tr.removeClass('shown');
+                            $("#Reqflecha_roja" + id_t).hide();
+                            $("#Reqflecha_azul" + id_t).show();
+
+                        }
+                        else {
+                            // Open this row
+                            TareasRequerimiento(row, id_t, tr);
+                            $("#Reqflecha_azul" + id_t).hide();
+                            $("#Reqflecha_roja" + id_t).show();
+                        }
+                    });
+
+                    function TareasRequerimiento(row, id_t, tr) {
+
+                        var tareaId = id_t;
+
+                        $.ajax({
+                            url: "/TAREAS/_ListadoHitos",
+                            data: {
+                                tareaId: tareaId
+
+                            },
+                            type: "GET",
+                            success: function (fooBarHTML) {
+
+
+
+                                row.child(fooBarHTML).show();
+                                tr.addClass('shown');
+
+                                //var orden = $("#hiddenOrden").val();
+                                //var limpiar = orden.replace("{", "");
+                                //var limpiar2 = limpiar.replace("}", "")
+                                //var orden = limpiar2;
+                                //var str = orden.split("orden =");
+                                //var ordenFinal = str[1];
+
+
+
+
+                            },
+                            error: function (xhr, status, errorThrown) {
+                                //...
+                            }
+                        });
+
+
+                    }
+
+                    $('#bbb').addClass("active");
+                    $('#aaa').removeClass("");
+                    $('#ccc').removeClass("");
+                },
+                error: function (xhr, status, errorThrown) {
+
+                }
+            });
+        }
+
+
 
     </script>
 }

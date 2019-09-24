@@ -5,7 +5,7 @@
 }
 
 
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="ibox-content">
     <div class="row">
         <div class="col-lg-12">
             @*<div class="ibox float-e-margins">*@
@@ -15,7 +15,7 @@
                 </div>
                 <div class="ibox-content">
 
-       
+
                     <div class="form-horizontal">
 
                         <div class="form-group">
@@ -53,29 +53,29 @@
                             <div class="col-md-offset-2 col-md-10">
                                 <input onclick="return  Ingreso();" value="Crear" class="btn btn-primary" />
                                 @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-white" })
-                                <button onclick="location.href='@Url.Action("Cancelar","Index")'; return false;" class="btn btn-danger">Borrar</button>
+                                @*<button onclick="location.href='@Url.Action("Cancelar","Index")'; return false;" class="btn btn-danger">Borrar</button>*@
 
                             </div>
                         </div>
 
 
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" id="mensaje_error" value="@ViewBag.mensaje_error" />
+</div>
+<input type="hidden" id="mensaje_error" value="@ViewBag.mensaje_error" />
 
-    @section Styles {
-        <link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
-    }
+@section Styles {
+    <link href="~/Content/SweetAlert/sweetalert.css" rel="stylesheet" />
+}
 
-    @section Scripts {
-        <script src="~/Scripts/SweetAlert/sweetalert.js"></script>
-        <script src="../Scripts/jquery-3.3.1.min.js"></script>
+@section Scripts {
+    <script src="~/Scripts/SweetAlert/sweetalert.js"></script>
+    <script src="../Scripts/jquery-3.3.1.min.js"></script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
 
 
 
@@ -99,47 +99,48 @@
                     confirmButtonText: "Continuar",
                     cancelButtonText: "Cancelar",
                     closeOnConfirm: false
-                }, function () {
+                }, function (isConfirm) {
 
-                    $.ajax({
-                        type: "POST",
-                        url: '@Url.Action("CrearTarea")',
 
-                        data: filedata,
-                        contentType: false,
-                        processData: false
+                    if (isConfirm) {
+                        swal({ title: "Creando tarea...", text: "....", showConfirmButton: false});
 
-                    }).done(function (data) {
+                         $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("CrearTarea")',
 
-                        if (data.Result == "OK") {
+                            data: filedata,
+                            contentType: false,
+                            processData: false
 
-                            swal({
-                                title: "Tarea Creada",
+                        }).done(function (data) {
 
-                                text: "transacción ha sido creado con exito",
-                                type: "success"
-                            }, function () {
-                                window.location.href = '/TAREAS/Index/'
-
-                            });
-
-                        }
-
-                        else if (data.Result == "ERROR") {
-                            swal({
-                                title:  "error",
-                                text: "Transacción no realizada",
+                            if (data.Result == "OK") {
+                                swal.close();
+                                window.location.href = '/TAREAS/asignarTarea/'
                             }
 
-                                , function () {
-                                });
-                        }
+                            else if (data.Result == "ERROR") {
+                                swal({
+                                    title: "error",
+                                    text: "Transacción no realizada",
+                                }
+
+                                    , function () {
+                                    });
+                            }
 
 
-                    }).fail(function () {
+                        }).fail(function () {
 
-                        alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
-                    })
+                            alert("Ups, algo malo ocurre, favor inténtalo mas tarde!.");
+                        }) 
+
+                    }
+
+
+
+
                 });
             }
 
@@ -184,6 +185,6 @@
 
 
 
-        </script>
-    }
+    </script>
+}
 
